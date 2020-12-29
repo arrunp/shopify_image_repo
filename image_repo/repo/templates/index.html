@@ -1,5 +1,30 @@
 <!DOCTYPE html>
 
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>S3 Example Static Only</title>
+</head>
+
+<body>
+    <header>
+        <h1>S3 Example Static Only</h1>
+    </header>
+    <main>
+        <img src="{% static 'img/face_Cropped.jpg' %}">
+        <h2>It's working!</h2>
+    </main>
+    <footer>
+        <a href="https://simpleisbetterthancomplex.com">www.SimpleIsBetterThanComplex.com</a>
+    </footer>
+</body>
+
+</html>
+<!--
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -16,12 +41,12 @@
             <button type="submit" class="btn btn-lg btn-secondary">Upload</button>
         </form>
 
-        <!--
+       
         {% if obj %}
         <h3>Succesfully uploaded : {{img_obj.title}}</h3>
         <img src="{{ obj.image.url}}" alt="image" class="img-thumbnail">
         {% endif %}
-        -->
+       
         <hr>
 
 
@@ -43,3 +68,4 @@
 
     </div>
 </body>
+-->
