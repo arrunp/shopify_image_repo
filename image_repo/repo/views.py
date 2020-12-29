@@ -12,7 +12,9 @@ def index(request):
             form.save()
             obj = form.instance
             return render(request, "index.html", {"obj": obj})
+
     else:
         form = ImageForm()
+
     img = Image.objects.all()
     return render(request, "index.html", {"img": img, "form": form})
