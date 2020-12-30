@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 
+
 <head>
-    <title>Shopify Image Repo</title>
+    <title>Image Repo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
@@ -10,7 +12,14 @@
 </head>
 
 <body>
-    <h1>Hello</h1>
+    <header>
+        <h2>Image Repo</h2>
+        <hr>
+    </header>
 
     {% block content %}{% endblock %}
+    <footer class="text-muted"
+        style="position: absolute; bottom: 0; margin-left: auto; margin-right: auto; left:0; right:0; text-align: center;">
+        <p>Arrun Patkuansingam - 2020</p>
+    </footer>
 </body>
