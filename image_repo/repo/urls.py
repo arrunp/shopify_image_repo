@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
+from .views import ImageCreateView
 
 urlpatterns = [
-    path('', views.index, name="home"),
+    path('', ImageCreateView.as_view(), name="home"),
 ]

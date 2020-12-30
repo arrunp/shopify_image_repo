@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
-from .form import ImageForm
+#from .form import ImageForm
 from .models import Image
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 
 # Create your views here.
+'''
 def index(request):
 
     if request.method == "POST":
@@ -18,3 +21,18 @@ def index(request):
 
     img = Image.objects.all()
     return render(request, "index.html", {"img": img, "form": form})
+'''
+
+
+class ImageCreateView(CreateView):
+    model = Image
+    fields = ['title', 'image']
+    template_name = 'repo/index.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        images = Image.objects.all()
+        context['images'] = images
+
+        return context
