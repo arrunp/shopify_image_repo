@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 # Create your views here.
 class ImageCreateView(CreateView):
     model = Image
-    fields = ['title', 'image']
+    fields = ['title', 'image', 'tags']
     template_name = 'repo/create_image.html'
     success_url = reverse_lazy('home')
 

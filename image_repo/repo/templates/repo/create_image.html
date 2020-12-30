@@ -5,9 +5,11 @@
 </head>
 
 <body>
+    <a href="{% url 'home' %}"><button>Back to List</button></a>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        <p>Please separate your tags with a comma</p>
         <button type="submit">Submit</button>
     </form>
 </body>
