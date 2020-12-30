@@ -6,4 +6,5 @@ urlpatterns = [
     path('', ImageListView.as_view(), name="home"),
     path('create/', ImageCreateView.as_view(), name="create"),
     path('search/', views.imageSearch, name="imageSearch"),
+    path('<int:pk>/delete/', views.imageDelete, name="imageDelete"),
 ]

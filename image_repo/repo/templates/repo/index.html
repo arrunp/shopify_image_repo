@@ -2,12 +2,12 @@
 {% block content %}
 <a href="{% url 'create' %}"><button>Upload Image</button></a>
 
-<li class="nav-item">
-    <form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
-        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-    </form>
-</li>
+
+<form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
+    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+</form>
+
 
 <table>
     <thead>
@@ -27,6 +27,13 @@
             <td>{{ image.date }}</td>
             <td>{{ image.image.size|filesizeformat }}</td>
             <td>{{ image.tags }}</td>
+            <td>
+                <form action="{% url 'imageDelete' image.id %}" method="POST">
+                    {% csrf_token %}
+                    <input name="deleteComment" type="submit" value="Delete"
+                        onclick="return confirm('Are you sure you would like to delete this image?');" />
+                </form>
+            </td>
         </tr>
         {% endfor %}
         {% else %}
@@ -36,6 +43,13 @@
             <td>{{ image.date }}</td>
             <td>{{ image.image.size|filesizeformat }}</td>
             <td>{{ image.tags }}</td>
+            <td>
+                <form action="{% url 'imageDelete' image.id %}" method="POST">
+                    {% csrf_token %}
+                    <input name="imageDelete" type="submit" value="Delete"
+                        onclick="return confirm('Are you sure you would like to delete this image?');" />
+                </form>
+            </td>
         </tr>
         {{ image.image.thumbnail }}
         {% empty %}

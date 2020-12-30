@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 #from .form import ImageForm
 from .models import Image
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.db.models import Q
 
 
@@ -43,3 +44,15 @@ def imageSearch(request):
                 queryset.append(image)
 
         return render(request, 'repo/index.html', {'found_images': queryset[::-1]})
+
+
+def imageDelete(request, **kwargs):
+    if request.method == 'POST':
+        if request.POST.get('imageDelete'):
+
+            image_id = Image.objects.filter(
+                id=kwargs['pk']).first().id
+
+            Image.objects.filter(id=image_id).first().delete()
+
+    return HttpResponseRedirect(reverse('home'))
