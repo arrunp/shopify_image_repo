@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-
+{% extends "repo/base.html" %}
+{% block content %}
+<a href="{% url 'create' %}"><button>Upload Image</button></a>
 <table>
     <thead>
         <tr>
@@ -19,7 +14,7 @@
         <tr>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
             <td>{{ image.date }}</td>
-            <td>{{ image.upload.size|filesizeformat }}</td>
+            <td>{{ image.image.size|filesizeformat }}</td>
         </tr>
         {% empty %}
         <tr>
@@ -28,49 +23,5 @@
         {% endfor %}
     </tbody>
 </table>
-
-<!--
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-
-<body>
-    <div class="container">
-
-        <form action="." method="post" enctype="multipart/form-data">
-
-            {% csrf_token %}
-            {{form.as_p}}
-
-            <button type="submit" class="btn btn-lg btn-secondary">Upload</button>
-        </form>
-
-       
-        {% if obj %}
-        <h3>Succesfully uploaded : {{img_obj.title}}</h3>
-        <img src="{{ obj.image.url}}" alt="image" class="img-thumbnail">
-        {% endif %}
-       
-        <hr>
-
-
-        {% for x in img %}
-        {% if forloop.first %}<div class="row ">{% endif %}
-            <div class="col-lg-4 col-md-4 col-12">
-                <div class="text-center mt-2">
-                    <img src="{{x.image.url}}" height="70%" width="70%" class="img-thumbnail" alt="...">
-                    <h2 class="text-center">{{x.title}}</h2>
-                </div>
-            </div>
-            {% if forloop.counter|divisibleby:3 %}
-        </div>
-        <div class=row>{% endif %}
-
-            {% if forloop.last %}</div>{% endif %}
-
-        {% endfor %}
-
-    </div>
 </body>
--->
+{% endblock content %}
