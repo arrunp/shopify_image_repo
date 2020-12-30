@@ -1,6 +1,14 @@
 {% extends "repo/base.html" %}
 {% block content %}
 <a href="{% url 'create' %}"><button>Upload Image</button></a>
+
+<li class="nav-item">
+    <form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
+        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
 <table>
     <thead>
         <tr>
@@ -11,6 +19,17 @@
         </tr>
     </thead>
     <tbody>
+
+        {% if found_images %}
+        {% for image in found_images %}
+        <tr>
+            <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
+            <td>{{ image.date }}</td>
+            <td>{{ image.image.size|filesizeformat }}</td>
+            <td>{{ image.tags }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
         {% for image in images %}
         <tr>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
@@ -18,11 +37,14 @@
             <td>{{ image.image.size|filesizeformat }}</td>
             <td>{{ image.tags }}</td>
         </tr>
+        {{ image.image.thumbnail }}
         {% empty %}
         <tr>
             <td colspan="3">No data.</td>
         </tr>
         {% endfor %}
+        {% endif %}
+
     </tbody>
 </table>
 {% endblock content %}

@@ -4,6 +4,7 @@ from .models import Image
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 
 # Create your views here.
@@ -24,3 +25,21 @@ class ImageListView(ListView):
         context['images'] = images
 
         return context
+
+
+def imageSearch(request):
+    if request.method == 'GET':
+        search = request.GET.get('imageSearch')
+        queryset = []
+        search = search.split(" ")
+
+        for word in search:
+            found_images = Image.objects.filter(
+                Q(title__icontains=word) | Q(
+                    tags__icontains=word)
+            ).distinct()
+
+            for image in found_images:
+                queryset.append(image)
+
+        return render(request, 'repo/index.html', {'found_images': queryset[::-1]})
