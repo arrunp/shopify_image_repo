@@ -12,8 +12,9 @@ from django.db.models import Q
 import boto3
 from django.conf import settings
 
-
 # Create your views here.
+
+
 class ImageCreateView(CreateView):
     model = Image
     fields = ['title', 'image', 'tags']
@@ -44,10 +45,18 @@ def imageSearch(request):
         queryset = []
         search = search.split(" ")
 
+        images = Image.objects.all()
+        for word in search:
+            for image in images:
+                tags_list = []
+                for x in image.tags.split(','):
+                    tags_list.append(x.strip())
+                if word in tags_list:
+                    queryset.append(image)
+
         for word in search:
             found_images = Image.objects.filter(
-                Q(title__icontains=word) | Q(
-                    tags__icontains=word) | Q(imageName__icontains=word)
+                Q(title__icontains=word) | Q(imageName__icontains=word)
             ).distinct()
 
             for image in found_images:
