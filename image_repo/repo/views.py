@@ -20,6 +20,14 @@ class ImageCreateView(CreateView):
     template_name = 'repo/index.html'
     success_url = reverse_lazy('home')
 
+    def form_valid(self, form):
+        image = form.save(commit=False)
+        image.save()
+        image.imageName = image.image.name
+        image.save()
+
+        return super(ImageCreateView, self).form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         images = Image.objects.all().order_by('-date')
