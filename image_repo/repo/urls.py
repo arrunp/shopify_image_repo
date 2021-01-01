@@ -1,10 +1,9 @@
 from django.urls import path
 from . import views
-from .views import ImageCreateView, ImageListView
+from .views import ImageCreateView
 
 urlpatterns = [
-    path('', ImageListView.as_view(), name="home"),
-    path('create/', ImageCreateView.as_view(), name="create"),
+    path('', ImageCreateView.as_view(), name="home"),
     path('search/', views.imageSearch, name="imageSearch"),
     path('<int:pk>/delete/', views.imageDelete, name="imageDelete"),
 ]

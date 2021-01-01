@@ -1,17 +1,36 @@
 {% extends "repo/base.html" %}
 {% block content %}
-<a href="{% url 'create' %}"><button class="btn btn-primary">Upload Image</button></a>
 
+{% if found_images %}
+<div style="display:none;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>***Please separate your tags with a comma</p>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% else %}
+<div style="display:block;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>***Please separate your tags with a comma</p>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+{% endif %}
 
+<!--IMAGE SEARCH AND UPLOADED LIST-->
 <form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-2 my-lg-0">
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 </form>
 
-
 <table>
     <thead>
         <tr>
+            <th>Title</th>
             <th>Name</th>
             <th>Uploaded at</th>
             <th>Size</th>
@@ -22,8 +41,10 @@
 
         {% if found_images %}
         <a href="{% url 'home' %}"><button class="btn btn-primary">Back to Home</button></a>
+        <p>Search Results: </p>
         {% for image in found_images %}
         <tr>
+            <td>{{ image.title }}</td>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
             <td>{{ image.date }}</td>
             <td>{{ image.image.size|filesizeformat }}</td>
@@ -40,6 +61,7 @@
         {% else %}
         {% for image in images %}
         <tr>
+            <td>{{ image.title }}</td>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
             <td>{{ image.date }}</td>
             <td>{{ image.image.size|filesizeformat }}</td>

@@ -12,13 +12,8 @@ from django.db.models import Q
 class ImageCreateView(CreateView):
     model = Image
     fields = ['title', 'image', 'tags']
-    template_name = 'repo/create_image.html'
-    success_url = reverse_lazy('home')
-
-
-class ImageListView(ListView):
-    model = Image
     template_name = 'repo/index.html'
+    success_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,9 +49,5 @@ def imageDelete(request, **kwargs):
                 id=kwargs['pk']).first().id
 
             Image.objects.filter(id=image_id).first().delete()
-
-    # doesnt work return render(request, 'repo/index.html')
-
-        # doesnt work return reverse_lazy('home')
 
         return HttpResponseRedirect(reverse('home'))
