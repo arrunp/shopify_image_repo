@@ -21,10 +21,11 @@ class ImageCreateView(CreateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        image = form.save(commit=False)
-        image.save()
-        image.imageName = image.image.name
-        image.save()
+        current_image = form.save(commit=False)
+        images = Image.objects.all()
+        current_image.save()
+        current_image.imageName = current_image.image.name
+        current_image.save()
 
         return super(ImageCreateView, self).form_valid(form)
 
@@ -32,6 +33,7 @@ class ImageCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         images = Image.objects.all().order_by('-date')
         context['images'] = images
+        #context['current_image_name_present'] = self.current_image_name_present
 
         return context
 
@@ -45,7 +47,7 @@ def imageSearch(request):
         for word in search:
             found_images = Image.objects.filter(
                 Q(title__icontains=word) | Q(
-                    tags__icontains=word)
+                    tags__icontains=word) | Q(imageName__icontains=word)
             ).distinct()
 
             for image in found_images:

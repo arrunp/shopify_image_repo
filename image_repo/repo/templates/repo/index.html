@@ -16,9 +16,9 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <p>***Please separate your tags with a comma</p>
         <button class="btn btn-primary" type="submit"
             onclick="return confirm('An image with this name already exists. Please note the image name will be changed or please click \'Cancel\' and change the image name.');">Submit</button>
+
     </form>
     <hr>
 </div>
