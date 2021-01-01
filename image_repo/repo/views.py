@@ -1,11 +1,16 @@
+from django.db import models
+from django.dispatch import receiver
+from django.views import generic
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-#from .form import ImageForm
+# from .form import ImageForm
 from .models import Image
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
+import boto3
+from django.conf import settings
 
 
 # Create your views here.
@@ -48,6 +53,16 @@ def imageDelete(request, **kwargs):
             image_id = Image.objects.filter(
                 id=kwargs['pk']).first().id
 
+            session = boto3.Session(
+                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+            )
+
+            s3 = session.resource('s3')
+
+            s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
+                      'media/' + Image.objects.filter(
+                          id=kwargs['pk']).first().image.name).delete()
             Image.objects.filter(id=image_id).first().delete()
 
         return HttpResponseRedirect(reverse('home'))
