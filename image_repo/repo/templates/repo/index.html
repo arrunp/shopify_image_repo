@@ -1,6 +1,6 @@
 {% extends "repo/base.html" %}
 {% block content %}
-<a href="{% url 'create' %}"><button>Upload Image</button></a>
+<a href="{% url 'create' %}"><button class="btn btn-primary">Upload Image</button></a>
 
 
 <form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-2 my-lg-0">
@@ -21,6 +21,7 @@
     <tbody>
 
         {% if found_images %}
+        <a href="{% url 'home' %}"><button class="btn btn-primary">Back to Home</button></a>
         {% for image in found_images %}
         <tr>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
@@ -30,7 +31,7 @@
             <td>
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
-                    <input name="deleteComment" type="submit" value="Delete"
+                    <input name="imageDelete" type="submit" value="Delete"
                         onclick="return confirm('Are you sure you would like to delete this image?');" />
                 </form>
             </td>
@@ -56,6 +57,7 @@
         <tr>
             <td colspan="3">No data.</td>
         </tr>
+        <a href="{% url 'home' %}"><button class="btn btn-primary">Click to Refresh</button></a>
         {% endfor %}
         {% endif %}
 

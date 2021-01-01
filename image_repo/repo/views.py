@@ -55,4 +55,8 @@ def imageDelete(request, **kwargs):
 
             Image.objects.filter(id=image_id).first().delete()
 
-    return HttpResponseRedirect(reverse('home'))
+    # doesnt work return render(request, 'repo/index.html')
+
+        # doesnt work return reverse_lazy('home')
+
+        return HttpResponseRedirect(reverse('home'))
