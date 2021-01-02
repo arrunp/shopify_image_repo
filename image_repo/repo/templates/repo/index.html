@@ -16,9 +16,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="btn btn-primary" type="submit"
-            onclick="return confirm('An image with this name already exists. Please note the image name will be changed or please click \'Cancel\' and change the image name.');">Submit</button>
-
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form>
     <hr>
 </div>
@@ -29,6 +27,12 @@
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 </form>
+
+{% if current_image_name != None %}
+<div class="alert alert-warning" role="alert">
+    <p>Due to an image with the same name, image name was changed to '{{ current_image_name }}.'</p>
+</div>
+{% endif %}
 
 <table>
     <thead>

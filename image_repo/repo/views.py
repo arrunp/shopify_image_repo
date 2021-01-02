@@ -14,6 +14,8 @@ from django.conf import settings
 
 # Create your views here.
 
+current_image_name = None
+
 
 class ImageCreateView(CreateView):
     model = Image
@@ -22,11 +24,23 @@ class ImageCreateView(CreateView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
+        send_warning = False
         current_image = form.save(commit=False)
+        prev_name = current_image.image.name
+        if Image.objects.filter(imageName=prev_name).first():
+            print(prev_name)
+            print(Image.objects.filter(imageName=prev_name).first().imageName)
+
+            send_warning = True
+
         images = Image.objects.all()
         current_image.save()
         current_image.imageName = current_image.image.name
         current_image.save()
+
+        if send_warning == True:
+            global current_image_name
+            current_image_name = current_image.imageName
 
         return super(ImageCreateView, self).form_valid(form)
 
@@ -34,8 +48,9 @@ class ImageCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         images = Image.objects.all().order_by('-date')
         context['images'] = images
-        #context['current_image_name_present'] = self.current_image_name_present
-
+        global current_image_name
+        context['current_image_name'] = current_image_name
+        current_image_name = None
         return context
 
 
