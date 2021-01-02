@@ -16,6 +16,8 @@ from django.conf import settings
 
 current_image_name = None
 
+# View to create new image upload
+
 
 class ImageCreateView(CreateView):
     model = Image
@@ -23,6 +25,8 @@ class ImageCreateView(CreateView):
     template_name = 'repo/index.html'
     success_url = reverse_lazy('home')
 
+    # 1) checks if image being uploaded has the same name as a file already uploaded
+    # 2) updates imageName field of image with the name of the image file
     def form_valid(self, form):
         send_warning = False
         current_image = form.save(commit=False)
@@ -50,6 +54,8 @@ class ImageCreateView(CreateView):
         current_image_name = None
         return context
 
+# used to search for images that match the search criteria (searches image title, name and tags)
+
 
 def imageSearch(request):
     if request.method == 'GET':
@@ -75,6 +81,8 @@ def imageSearch(request):
                 queryset.append(image)
 
         return render(request, 'repo/index.html', {'found_images': queryset[::-1]})
+
+# deletes images and deletes image in S3 bucket
 
 
 def imageDelete(request, **kwargs):

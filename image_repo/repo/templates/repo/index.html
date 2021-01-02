@@ -1,6 +1,7 @@
 {% extends "repo/base.html" %}
 {% block content %}
 
+<!--IMAGE UPLOAD-->
 {% if found_images != None %}
 <div style="display:none;">
     <form method="post" enctype="multipart/form-data">
@@ -25,14 +26,14 @@
 </div>
 {% endif %}
 
-<!--IMAGE SEARCH AND UPLOADED LIST-->
-
+<!--IMAGE SEARCH-->
 <form action="{% url 'imageSearch' %}" method="get" class="form-inline my-3 my-lg-3 mx-3 mx-lg-3">
     {% csrf_token %}
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 </form>
 
+<!--WARNING FOR IMAGE DUPLICATES-->
 {% if current_image_name != None %}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <p>Due to an image with the same name, image name was changed to '{{ current_image_name }}.'</p>
@@ -40,6 +41,7 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+<!--LIST OF UPLOADED IMAGES-->
 {% endif %}
 <table style="text-align: center;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <thead>
@@ -53,7 +55,7 @@
         </tr>
     </thead>
     <tbody>
-
+        <!--LIST OF UPLOADED IMAGES THAT MATCH SEARCH CRITERIA-->
         {% if found_images != None %}
         <a href="{% url 'home' %}"><button class="btn btn-primary my-3 my-lg-3 mx-3 mx-lg-3">Back to Home</button></a>
         <h5 class=" my-3 my-lg-3 mx-3 mx-lg-3">Search Results: </h5>
@@ -67,6 +69,7 @@
             <td class="py-2 px-2">{{ image.image.size|filesizeformat }}</td>
             <td class="py-2 px-2">{{ image.tags }}</td>
             <td class="py-2 px-2">
+                <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
                     <input name="imageDelete" type="submit" value="Delete" class="btn btn-danger"
@@ -76,6 +79,7 @@
         </tr>
         {% endfor %}
         {% else %}
+        <!--LIST OF UPLOADED IMAGES-->
         <h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Uploaded Images:</h5>
         {% for image in images %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
@@ -87,6 +91,7 @@
             <td class="py-2 px-2">{{ image.image.size|filesizeformat }}</td>
             <td class="py-2 px-2">{{ image.tags }}</td>
             <td class="py-2 px-2">
+                <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
                     <input name="imageDelete" type="submit" value="Delete" class="btn btn-danger"
