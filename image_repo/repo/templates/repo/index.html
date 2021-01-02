@@ -35,8 +35,10 @@
 
 <!--WARNING FOR IMAGE DUPLICATES-->
 {% if current_image_name != None %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-    <p>Due to an image with the same name, image name was changed to '{{ current_image_name }}.'</p>
+<div class="alert alert-warning alert-dismissible fade show" role="alert"
+    style="margin-top: auto; margin-bottom: auto;">
+    Due to an image with the same name, image name was changed to
+    '{{ current_image_name }}.'
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -46,12 +48,12 @@
 <table style="text-align: center;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <thead>
         <tr>
-            <th class="py-2 px-2">Thumbnail</th>
-            <th class="py-2 px-2">Title</th>
-            <th class="py-2 px-2">Name</th>
-            <th class="py-2 px-2">Uploaded at</th>
-            <th class="py-2 px-2">Size</th>
-            <th class="py-2 px-2">Tags</th>
+            <th class="py-2 px-2" style="border: 1px solid black; min-width: 100px;">Thumbnail</th>
+            <th class="py-2 px-2" style="border: 1px solid black; min-width: 100px;">Title</th>
+            <th class="py-2 px-2" style="border: 1px solid black; min-width: 225px;">Name</th>
+            <th class="py-2 px-2" style="border: 1px solid black; min-width: 225px;">Uploaded at</th>
+            <th class="py-2 px-2" style="border: 1px solid black; min-width: 90px;">Size</th>
+            <th class="py-2 px-2" style="border: 1px solid black; min-width: 150px;">Tags</th>
         </tr>
     </thead>
     <tbody>
@@ -60,15 +62,17 @@
         <a href="{% url 'home' %}"><button class="btn btn-primary my-3 my-lg-3 mx-3 mx-lg-3">Back to Home</button></a>
         <h5 class=" my-3 my-lg-3 mx-3 mx-lg-3">Search Results: </h5>
         {% for image in found_images %}
-        <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
-            <td class="py-2 px-2"><img src="{{ image.image.url }}" style="height: 24px; width: 24px;"></td>
-            <td class="py-2 px-2">{{ image.title }}</td>
-            <td class="py-2 px-2"><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a>
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3" style="border: 1px solid black;">
+            <td class="py-2 px-2" style="border: 1px solid black;"><img src="{{ image.image.url }}"
+                    style="height: 24px; width: 24px;"></td>
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.title }}</td>
+            <td class="py-2 px-2" style="border: 1px solid black;"><a href="{{ image.image.url }}" target="_blank">
+                    {{ image.image.name }}</a>
             </td>
-            <td class="py-2 px-2">{{ image.date }} EST</td>
-            <td class="py-2 px-2">{{ image.image.size|filesizeformat }}</td>
-            <td class="py-2 px-2">{{ image.tags }}</td>
-            <td class="py-2 px-2">
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.date }} EST</td>
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.tags }}</td>
+            <td class="py-2 px-2" style="border: 1px solid black;">
                 <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
@@ -80,17 +84,19 @@
         {% endfor %}
         {% else %}
         <!--LIST OF UPLOADED IMAGES-->
-        <h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Uploaded Images:</h5>
+        <h5 class="my-4 my-lg-4 mx-3 mx-lg-3">Uploaded Images:</h5>
         {% for image in images %}
-        <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
-            <td class="py-2 px-2"><img src="{{ image.image.url }}" style="height: 24px; width: 24px;"></td>
-            <td class="py-2 px-2">{{ image.title }}</td>
-            <td class="py-2 px-2"><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a>
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3" style="border: 1px solid black;">
+            <td class="py-2 px-2" style="border: 1px solid black;"><img src="{{ image.image.url }}"
+                    style="height: 50px; width: 50px;"></td>
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.title }}</td>
+            <td class="py-2 px-2" style="border: 1px solid black;"><a href="{{ image.image.url }}" target="_blank">
+                    {{ image.image.name }}</a>
             </td>
-            <td class="py-2 px-2">{{ image.date }} EST</td>
-            <td class="py-2 px-2">{{ image.image.size|filesizeformat }}</td>
-            <td class="py-2 px-2">{{ image.tags }}</td>
-            <td class="py-2 px-2">
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.date }} EST</td>
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.tags }}</td>
+            <td class="py-2 px-2" style="border: 1px solid black;">
                 <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
@@ -101,10 +107,11 @@
         </tr>
         {{ image.image.thumbnail }}
         {% empty %}
-        <tr>
-            <td colspan="3">No data.</td>
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
+            <td class="py-2 px-2" colspan="6">No data.</td>
         </tr>
-        <a href="{% url 'home' %}"><button class="btn btn-primary">Click to Refresh</button></a>
+        <a class="my-4 my-lg-4 mx-3 mx-lg-3" href="{% url 'home' %}"><button class="btn btn-primary">Click to
+                Refresh</button></a>
         {% endfor %}
         {% endif %}
 
