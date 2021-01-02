@@ -60,7 +60,7 @@ class ImageCreateView(CreateView):
 def imageSearch(request):
     if request.method == 'GET':
         search = request.GET.get('imageSearch')
-        queryset = []
+        unique_images = set()
         search = search.split(" ")
 
         images = Image.objects.all()
@@ -70,7 +70,7 @@ def imageSearch(request):
                 for x in image.tags.split(','):
                     tags_list.append(x.strip().lower())
                 if word.lower() in tags_list:
-                    queryset.append(image)
+                    unique_images.add(image)
 
         for word in search:
             found_images = Image.objects.filter(
@@ -78,9 +78,11 @@ def imageSearch(request):
             ).distinct()
 
             for image in found_images:
-                queryset.append(image)
+                unique_images.add(image)
 
-        return render(request, 'repo/index.html', {'found_images': queryset[::-1]})
+        unique_images = list(unique_images)
+
+        return render(request, 'repo/index.html', {'found_images': unique_images[::-1]})
 
 # deletes images and deletes image in S3 bucket
 
