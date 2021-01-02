@@ -9,6 +9,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
 import boto3
+from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 # Create your views here.

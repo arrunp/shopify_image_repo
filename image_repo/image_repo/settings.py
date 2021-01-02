@@ -128,6 +128,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
+
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
@@ -141,9 +142,11 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'us-east-2'
 AWS_DEFAULT_ACL = None
 
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'repo/static'),
 ]
+
 
 STATIC_URL = 'https://%s.s3.%s.amazonaws.com/%s/' % (
     AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME, AWS_LOCATION)
