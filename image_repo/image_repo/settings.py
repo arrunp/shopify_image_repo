@@ -148,7 +148,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'repo/static'),
 ]
 
-
 STATIC_URL = 'https://%s.s3.%s.amazonaws.com/%s/' % (
     AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME, AWS_LOCATION)
 
