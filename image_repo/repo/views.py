@@ -28,9 +28,6 @@ class ImageCreateView(CreateView):
         current_image = form.save(commit=False)
         prev_name = current_image.image.name
         if Image.objects.filter(imageName=prev_name).first():
-            print(prev_name)
-            print(Image.objects.filter(imageName=prev_name).first().imageName)
-
             send_warning = True
 
         images = Image.objects.all()
