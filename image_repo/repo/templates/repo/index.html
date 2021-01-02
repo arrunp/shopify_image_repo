@@ -6,16 +6,16 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <p>***Please separate your tags with a comma</p>
         <button type="submit">Submit</button>
     </form>
-
 </div>
 {% else %}
+<h5 class="my-3 my-lg-3">Upload your image here:</h5>
 <div style="display:block;">
-    <form method="post" enctype="multipart/form-data">
+    <form method=" post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        <p>If you have multiple tags, <strong>please separate your tags with a comma</strong></p>
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
     <hr>
@@ -23,17 +23,20 @@
 {% endif %}
 
 <!--IMAGE SEARCH AND UPLOADED LIST-->
-<form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-2 my-lg-0">
+
+<form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-3 my-lg-3">
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 </form>
 
 {% if current_image_name != None %}
-<div class="alert alert-warning" role="alert">
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
     <p>Due to an image with the same name, image name was changed to '{{ current_image_name }}.'</p>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 {% endif %}
-
 <table>
     <thead>
         <tr>
@@ -48,7 +51,7 @@
 
         {% if found_images %}
         <a href="{% url 'home' %}"><button class="btn btn-primary">Back to Home</button></a>
-        <p>Search Results: </p>
+        <h5 class="my-3 my-lg-3">Search Results: </h5>
         {% for image in found_images %}
         <tr>
             <td>{{ image.title }}</td>
@@ -66,6 +69,7 @@
         </tr>
         {% endfor %}
         {% else %}
+        <h5 class="my-3 my-lg-3">Uploaded Images:</h5>
         {% for image in images %}
         <tr>
             <td>{{ image.title }}</td>

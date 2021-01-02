@@ -3,7 +3,6 @@ from django.dispatch import receiver
 from django.views import generic
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-# from .form import ImageForm
 from .models import Image
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
