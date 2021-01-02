@@ -10,8 +10,8 @@
     </form>
 </div>
 {% else %}
-<h5 class="my-3 my-lg-3">Upload your image here:</h5>
-<div style="display:block;">
+<h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Upload your image here:</h5>
+<div style="display:block;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <form method=" post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
@@ -24,7 +24,7 @@
 
 <!--IMAGE SEARCH AND UPLOADED LIST-->
 
-<form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-3 my-lg-3">
+<form action="{% url 'imageSearch' %}" method=" get" class="form-inline my-3 my-lg-3 mx-3 mx-lg-3">
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 </form>
@@ -37,23 +37,24 @@
     </button>
 </div>
 {% endif %}
-<table>
+<table style="text-align: center;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <thead>
         <tr>
-            <th>Title</th>
-            <th>Name</th>
-            <th>Uploaded at</th>
-            <th>Size</th>
-            <th>Tags</th>
+            <th class="py-2 px-2">Thumbnail</th>
+            <th class="py-2 px-2">Title</th>
+            <th class="py-2 px-2">Name</th>
+            <th class="py-2 px-2">Uploaded at</th>
+            <th class="py-2 px-2">Size</th>
+            <th class="py-2 px-2">Tags</th>
         </tr>
     </thead>
     <tbody>
 
         {% if found_images %}
         <a href="{% url 'home' %}"><button class="btn btn-primary">Back to Home</button></a>
-        <h5 class="my-3 my-lg-3">Search Results: </h5>
+        <h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Search Results: </h5>
         {% for image in found_images %}
-        <tr>
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
             <td>{{ image.title }}</td>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
             <td>{{ image.date }} EST</td>
@@ -69,16 +70,16 @@
         </tr>
         {% endfor %}
         {% else %}
-        <h5 class="my-3 my-lg-3">Uploaded Images:</h5>
+        <h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Uploaded Images:</h5>
         {% for image in images %}
-        <tr>
-            <td><img src="{{ image.image.url }}" style="height: 24px; width: 24px;"></td>
-            <td>{{ image.title }}</td>
-            <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
-            <td>{{ image.date }} EST</td>
-            <td>{{ image.image.size|filesizeformat }}</td>
-            <td>{{ image.tags }}</td>
-            <td>
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
+            <td class="py-2 px-2"><img src="{{ image.image.url }}" style="height: 24px; width: 24px;"></td>
+            <td class="py-2 px-2">{{ image.title }}</td>
+            <td class="py-2 px-2"><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
+            <td class="py-2 px-2">{{ image.date }} EST</td>
+            <td class="py-2 px-2">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2">{{ image.tags }}</td>
+            <td class="py-2 px-2">
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
                     <input name="imageDelete" type="submit" value="Delete"
