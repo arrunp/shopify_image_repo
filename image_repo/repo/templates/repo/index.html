@@ -72,6 +72,7 @@
         <h5 class="my-3 my-lg-3">Uploaded Images:</h5>
         {% for image in images %}
         <tr>
+            <td><img src="{{ image.image.url }}" style="height: 24px; width: 24px;"></td>
             <td>{{ image.title }}</td>
             <td><a href="{{ image.image.url }}" target="_blank">{{ image.image.name }}</a></td>
             <td>{{ image.date }} EST</td>
