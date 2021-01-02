@@ -66,11 +66,12 @@ def imageSearch(request):
         images = Image.objects.all()
         for word in search:
             for image in images:
-                tags_list = []
-                for x in image.tags.split(','):
-                    tags_list.append(x.strip().lower())
-                if word.lower() in tags_list:
-                    unique_images.add(image)
+                if image.tags != None:
+                    tags_list = []
+                    for x in image.tags.split(','):
+                        tags_list.append(x.strip().lower())
+                    if word.lower() in tags_list:
+                        unique_images.add(image)
 
         for word in search:
             found_images = Image.objects.filter(
