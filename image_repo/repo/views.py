@@ -68,8 +68,8 @@ def imageSearch(request):
             for image in images:
                 tags_list = []
                 for x in image.tags.split(','):
-                    tags_list.append(x.strip())
-                if word in tags_list:
+                    tags_list.append(x.strip().lower())
+                if word.lower() in tags_list:
                     queryset.append(image)
 
         for word in search:
