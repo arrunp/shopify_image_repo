@@ -55,6 +55,10 @@ class ImageCreateView(CreateView):
         return context
 
 # used to search for images that match the search criteria (searches image title, name and tags)
+# @params request: takes in the GET request provided by the search form in index.html
+# @returns an HttpResponse which renders a template (index.html) with a provided dictionary of values
+#          (in this case with the one key, found_images) - founded images contains the images that match
+#          the search criteria and displays it on the rendered index.html
 
 
 def imageSearch(request):
