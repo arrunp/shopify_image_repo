@@ -95,18 +95,20 @@ def imageDelete(request, **kwargs):
             image_id = Image.objects.filter(
                 id=kwargs['pk']).first().id
 
-            '''
-            session = boto3.Session(
-                aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-            )
+            try:
+                session = boto3.Session(
+                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                )
 
-            s3 = session.resource('s3')
+                s3 = session.resource('s3')
 
-            s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
-                      'media/' + Image.objects.filter(
-                          id=kwargs['pk']).first().image.name).delete()
-            '''
+                s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
+                          'media/' + Image.objects.filter(
+                              id=kwargs['pk']).first().image.name).delete()
+
+            except AttributeError:
+                pass
 
             Image.objects.filter(id=image_id).first().delete()
 
