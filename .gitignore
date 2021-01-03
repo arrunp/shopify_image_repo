@@ -131,3 +131,4 @@ dmypy.json
 .pyre/
 
 image_env/
+image_repo/media/
