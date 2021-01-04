@@ -48,12 +48,12 @@
 <table style="text-align: center;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <thead>
         <tr>
-            <th class="py-2 px-2" style="border: 1px solid black; min-width: 100px;">Thumbnail</th>
-            <th class="py-2 px-2" style="border: 1px solid black; min-width: 100px;">Title</th>
-            <th class="py-2 px-2" style="border: 1px solid black; min-width: 225px;">Name</th>
-            <th class="py-2 px-2" style="border: 1px solid black; min-width: 225px;">Uploaded at</th>
-            <th class="py-2 px-2" style="border: 1px solid black; min-width: 90px;">Size</th>
-            <th class="py-2 px-2" style="border: 1px solid black; min-width: 150px;">Tags</th>
+            <th class="py-2 px-2 border_black" style="min-width: 100px;">Thumbnail</th>
+            <th class="py-2 px-2 border_black" style="min-width: 100px;">Title</th>
+            <th class="py-2 px-2 border_black" style="min-width: 225px;">Name</th>
+            <th class="py-2 px-2 border_black" style="min-width: 225px;">Uploaded at</th>
+            <th class="py-2 px-2 border_black" style="min-width: 90px;">Size</th>
+            <th class="py-2 px-2 border_black" style="min-width: 150px;">Tags</th>
         </tr>
     </thead>
     <tbody>
@@ -62,17 +62,16 @@
         <a href="{% url 'home' %}"><button class="btn btn-primary my-3 my-lg-3 mx-3 mx-lg-3">Back to Home</button></a>
         <h5 class=" my-3 my-lg-3 mx-3 mx-lg-3">Search Results: </h5>
         {% for image in found_images %}
-        <tr class="my-3 my-lg-3 mx-3 mx-lg-3" style="border: 1px solid black;">
-            <td class="py-2 px-2" style="border: 1px solid black;"><img src="{{ image.image.url }}"
-                    style="height: 50px; width: 50px;"></td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.title }}</td>
-            <td class="py-2 px-2" style="border: 1px solid black;"><a href="{{ image.image.url }}" target="_blank">
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3 border_black">
+            <td class="py-2 px-2 border_black"><img src="{{ image.image.url }}" style="height: 50px; width: 50px;"></td>
+            <td class="py-2 px-2 border_black">{{ image.title }}</td>
+            <td class="py-2 px-2 border_black"><a href="{{ image.image.url }}" target="_blank">
                     {{ image.image.name }}</a>
             </td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.date }} EST</td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.image.size|filesizeformat }}</td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.tags }}</td>
-            <td class="py-2 px-2" style="border: 1px solid black;">
+            <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
+            <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2 border_black">{{ image.tags }}</td>
+            <td class="py-2 px-2 border_black">
                 <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
@@ -86,17 +85,16 @@
         <!--LIST OF UPLOADED IMAGES-->
         <h5 class="my-4 my-lg-4 mx-3 mx-lg-3">Uploaded Images:</h5>
         {% for image in images %}
-        <tr class="my-3 my-lg-3 mx-3 mx-lg-3" style="border: 1px solid black;">
-            <td class="py-2 px-2" style="border: 1px solid black;"><img src="{{ image.image.url }}"
-                    style="height: 50px; width: 50px;"></td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.title }}</td>
-            <td class="py-2 px-2" style="border: 1px solid black;"><a href="{{ image.image.url }}" target="_blank">
+        <tr class="my-3 my-lg-3 mx-3 mx-lg-3 border_black">
+            <td class="py-2 px-2 border_black"><img src="{{ image.image.url }}" style="height: 50px; width: 50px;"></td>
+            <td class="py-2 px-2 border_black">{{ image.title }}</td>
+            <td class="py-2 px-2 border_black"><a href="{{ image.image.url }}" target="_blank">
                     {{ image.image.name }}</a>
             </td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.date }} EST</td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.image.size|filesizeformat }}</td>
-            <td class="py-2 px-2" style="border: 1px solid black;">{{ image.tags }}</td>
-            <td class="py-2 px-2" style="border: 1px solid black;">
+            <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
+            <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2 border_black">{{ image.tags }}</td>
+            <td class="py-2 px-2 border_black">
                 <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
                     {% csrf_token %}
