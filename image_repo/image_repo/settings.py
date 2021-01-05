@@ -153,3 +153,5 @@ STATIC_URL = 'https://%s.s3.%s.amazonaws.com/%s/' % (
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 DEFAULT_FILE_STORAGE = 'image_repo.storage_backends.MediaStorage'
+
+GOOGLE_APPLICATION_CREDENTIALS = config('GOOGLE_APPLICATION_CREDENTIALS')

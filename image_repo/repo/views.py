@@ -30,7 +30,7 @@ class ImageCreateView(CreateView):
 
     def image_detect(self, image_url):
 
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'probable-quest-242019-805cd1d7f139.json'
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = settings.GOOGLE_APPLICATION_CREDENTIALS
 
         client = vision.ImageAnnotatorClient()
 
