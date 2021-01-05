@@ -13,17 +13,16 @@ from pathlib import Path
 import os
 from decouple import config
 from django.utils import timezone
-
+import boto3
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-gv*5b+1$uy%a-^)+qvu9$)-0$!&iv$9usu5p1frua2yn6st87'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -142,6 +141,7 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'us-east-2'
 AWS_DEFAULT_ACL = None
 
+AWS_SECRETS_NAME = 'django_secrets'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'repo/static'),

@@ -11,7 +11,10 @@ from django.db.models import Q
 import boto3
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-
+from google.cloud import vision
+from google.cloud.vision_v1 import types
+import os
+import json
 # Create your views here.
 
 current_image_name = None
@@ -25,6 +28,28 @@ class ImageCreateView(CreateView):
     template_name = 'repo/index.html'
     success_url = reverse_lazy('home')
 
+    def image_detect(self, image_url):
+
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = 'probable-quest-242019-805cd1d7f139.json'
+
+        client = vision.ImageAnnotatorClient()
+
+        labels = []
+        label_string = ""
+
+        image = types.Image()
+        image.source.image_uri = image_url
+
+        response_label = client.label_detection(image=image)
+
+        for label in response_label.label_annotations:
+            labels.append(label.description)
+
+        for label in labels:
+            label_string += label + ", "
+
+        return label_string.strip(',')
+
     # 1) checks if image being uploaded has the same name as a file already uploaded
     # 2) updates imageName field of image with the name of the image file
     def form_valid(self, form):
@@ -33,9 +58,9 @@ class ImageCreateView(CreateView):
         prev_name = current_image.image.name
         if Image.objects.filter(imageName=prev_name).first():
             send_warning = True
-
         images = Image.objects.all()
         current_image.save()
+        current_image.vision_tags = self.image_detect(current_image.image.url)
         current_image.imageName = current_image.image.name
         current_image.save()
 
