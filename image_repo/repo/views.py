@@ -98,12 +98,14 @@ def imageSearch(request):
         images = Image.objects.all()
         for word in search:
             for image in images:
+                # searching based on user inputted tags
                 if image.tags != None:
                     tags_list = []
                     for x in image.tags.split(','):
                         tags_list.append(x.strip().lower())
                     if word.lower() in tags_list:
                         unique_images.add(image)
+                # searching based on suggested tags provided by google vision api
                 if vision_tag_search == 'on':
                     if image.vision_tags != None:
                         vision_tags_list = []
@@ -122,7 +124,7 @@ def imageSearch(request):
 
         unique_images = list(unique_images)
 
-        return render(request, 'repo/index.html', {'found_images': unique_images[::-1]})
+        return render(request, 'repo/search.html', {'found_images': unique_images[::-1]})
 
 # deletes image row based on ID from db and deletes image in S3 bucket
 # @params request: takes in the POST request provided by the delete form in index.html
