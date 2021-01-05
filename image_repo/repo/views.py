@@ -14,12 +14,19 @@ from django.conf import settings
 from google.cloud import vision
 from google.cloud.vision_v1 import types
 import os
-import json
 # Create your views here.
 
 current_image_name = None
 
 # View to create new image upload
+# @params for this class is CreateView, a django view that displays a form for creating an object and saving it
+#         - The field 'model' is Image, as this form will be creating an Image object
+#         - The fields included on the form based on the Image model are 'title', 'image', and 'tags' (please refer to models.py
+#         to see the types for these fields)
+#         - template name is the name where the form to generate the object will be displayed (index.html)
+#         - success_url takes the object returned from reverse_lazy('home'), 'home' being the name of the home page's url
+#         to return the user to this page once the form is successfully submitted
+# @return  The image object submitted from the form will be saved based on the Image model.
 
 
 class ImageCreateView(CreateView):
@@ -28,6 +35,11 @@ class ImageCreateView(CreateView):
     template_name = 'repo/index.html'
     success_url = reverse_lazy('home')
 
+    # If the Google Vision API credentials are provided, image_detect will use the API to provide tag suggestions
+    # for an image based on object detection. If the credentials are not provided it will use the python cvlib for
+    # providing these object detection suggestions
+    # @params image_url: the url of the image that the object detection will be run on
+    # @returns suggested_vision_tags: a string of suggested tags for the image based on objects detected in it
     def image_detect(self, image_url):
 
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = settings.GOOGLE_APPLICATION_CREDENTIALS
@@ -49,12 +61,15 @@ class ImageCreateView(CreateView):
             if len(label.split()) == 1:
                 label_string += label + ", "
 
-        print(label_string)
+        suggested_vision_tags = label_string.strip(', ')
+        return suggested_vision_tags
 
-        return label_string.strip(', ')
-
-    # 1) checks if image being uploaded has the same name as a file already uploaded
-    # 2) updates imageName field of image with the name of the image file
+    # 1) checks if image being uploaded through the form has the same name as a file already uploaded
+    # 2) updates the imageName field in the database of the image being uploaded with the (new) name of the image
+    #    (django changes the name of the image if there are duplicates, this imageName field keeps track of
+    #    that in the DB)
+    # @params form: the current form (CreateView)
+    # @returns saves the form instance and redirects to the success_url by default
     def form_valid(self, form):
         send_warning = False
         current_image = form.save(commit=False)
@@ -73,6 +88,12 @@ class ImageCreateView(CreateView):
 
         return super(ImageCreateView, self).form_valid(form)
 
+    # The context data is provided to the rendered template at the success_url upon successful submission of the form
+    # @params **kwargs: a dictionary of keyword arguments
+    # @returns The context data (a dictionary of values) will be returned and sent to the success url.
+    #          Context has the stored images (context['images'] and the name of the image that was just created
+    #          using the CreateView form context['current_image_name']. The images are held in context in chronologial
+    #          order (latest stored images first)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         images = Image.objects.all().order_by('-date')
@@ -82,13 +103,14 @@ class ImageCreateView(CreateView):
         current_image_name = None
         return context
 
-# used to search for images that match the search criteria (searches image title, name and tags)
-# @params request: takes in the GET request provided by the search form in index.html
-#                  depending on if the vision_tag_search checkbox is checked or not, the suggested tags
-#                  provided by the Google Vision API may or may not be included in the search
+# Used to search for images that match the search criteria (searches image title, name and tags)
+# @params request: takes in the GET request provided by the search form in index.html.
+#                  Depending on if the vision_tag_search checkbox is checked or not, the suggested tags
+#                  provided by the Google Vision API may or may not be included in the search (checked = include
+#                  Google Vision API suggestions)
 # @returns an HttpResponse which renders a template (index.html) with a provided dictionary of values
-#          (in this case with the one key, found_images) - found_images contains the images that match
-#          the search criteria and displays it on the rendered index.html
+#          (this dictionary has one key, found_images, which contains the images that match the search criteria a
+#           and this data is sent to be on the rendered index.html)
 
 
 def imageSearch(request):
@@ -101,14 +123,14 @@ def imageSearch(request):
         images = Image.objects.all()
         for word in search:
             for image in images:
-                # searching based on user inputted tags
+                # Searching based on user inputted tags
                 if image.tags != None:
                     tags_list = []
                     for x in image.tags.split(','):
                         tags_list.append(x.strip().lower())
                     if word.lower() in tags_list:
                         unique_images.add(image)
-                # searching based on suggested tags provided by google vision api
+                # Searching based on suggested tags provided by google vision api
                 if vision_tag_search == 'on':
                     if image.vision_tags != None:
                         vision_tags_list = []
@@ -117,6 +139,7 @@ def imageSearch(request):
                         if word.lower() in vision_tags_list:
                             unique_images.add(image)
 
+        # Searching based on titles and imageName field
         for word in search:
             found_images = Image.objects.filter(
                 Q(title__icontains=word) | Q(imageName__icontains=word)
@@ -125,15 +148,17 @@ def imageSearch(request):
             for image in found_images:
                 unique_images.add(image)
 
+        # In the case the images showed up in more than one search criteria, they were stored in a set and are
+        # now being converted to a list.
         unique_images = list(unique_images)
 
         return render(request, 'repo/search.html', {'found_images': unique_images[::-1]})
 
-# deletes image row based on ID from db and deletes image in S3 bucket
+# Deletes image row in DB based on ID and deletes image in S3 bucket
 # @params request: takes in the POST request provided by the delete form in index.html
 #         **kwargs: keyword arguments provided by the url
 # @returns an HttpResponse which leads back to a template (index.html) after performing the operation of
-#          deleting the item in the db which has the matching ID provided by the 'pk' key word argument parameter
+#          deleting the item in the db which has the matching ID provided by the 'pk' key word argument parameter.
 #          If AWS S3 is being used and an AWS_ACCESS_KEY_ID (and other necessary credentials are provided), the
 #          image with the matching image URL in the S3 bucket will be deleted
 
