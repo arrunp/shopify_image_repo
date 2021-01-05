@@ -104,10 +104,7 @@ def imageSearch(request):
                         tags_list.append(x.strip().lower())
                     if word.lower() in tags_list:
                         unique_images.add(image)
-
-        if vision_tag_search == 'on':
-            for word in search:
-                for image in images:
+                if vision_tag_search == 'on':
                     if image.vision_tags != None:
                         vision_tags_list = []
                         for x in image.vision_tags.split(','):

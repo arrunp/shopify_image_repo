@@ -31,7 +31,7 @@
     {% csrf_token %}
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-    <div class="text-muted" style="margin-left: 15px;"> Include suggested tags in search? <input type="checkbox"
+    <div class="text-muted" style="margin-left: 15px;"> Include 'Suggested tags' in search <input type="checkbox"
             id="vision_tag_search" name="vision_tag_search">
     </div>
 </form>
@@ -57,7 +57,7 @@
             <th class="py-2 px-2 border_black" style="min-width: 225px;">Uploaded at</th>
             <th class="py-2 px-2 border_black" style="min-width: 90px;">Size</th>
             <th class="py-2 px-2 border_black" style="min-width: 300px;">Tags <br>
-                <div class="text-muted">Hide suggested tags? <input type="checkbox" id="hideVisionTags"
+                <div class="text-muted">Hide suggested tags <input type="checkbox" id="hideVisionTags"
                         onclick="hideVisionTags()">
                 </div>
                 <script>
