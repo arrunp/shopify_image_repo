@@ -46,9 +46,12 @@ class ImageCreateView(CreateView):
             labels.append(label.description)
 
         for label in labels:
-            label_string += label + ", "
+            if len(label.split()) == 1:
+                label_string += label + ", "
 
-        return label_string.strip(',')
+        print(label_string)
+
+        return label_string.strip(', ')
 
     # 1) checks if image being uploaded has the same name as a file already uploaded
     # 2) updates imageName field of image with the name of the image file
