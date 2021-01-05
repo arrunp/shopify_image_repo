@@ -89,6 +89,7 @@ class ImageCreateView(CreateView):
 def imageSearch(request):
     if request.method == 'GET':
         search = request.GET.get('imageSearch')
+        vision_tag_search = request.GET.get('vision_tag_search')
         unique_images = set()
         search = search.split(" ")
 
@@ -101,6 +102,16 @@ def imageSearch(request):
                         tags_list.append(x.strip().lower())
                     if word.lower() in tags_list:
                         unique_images.add(image)
+
+        if vision_tag_search == 'on':
+            for word in search:
+                for image in images:
+                    if image.vision_tags != None:
+                        vision_tags_list = []
+                        for x in image.vision_tags.split(','):
+                            vision_tags_list.append(x.strip().lower())
+                        if word.lower() in vision_tags_list:
+                            unique_images.add(image)
 
         for word in search:
             found_images = Image.objects.filter(

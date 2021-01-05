@@ -31,7 +31,9 @@
     {% csrf_token %}
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-
+    <div class="text-muted" style="margin-left: 15px;"> Include suggested tags in search? <input type="checkbox"
+            id="vision_tag_search" name="vision_tag_search">
+    </div>
 </form>
 
 <!--WARNING FOR IMAGE DUPLICATES-->
@@ -54,7 +56,7 @@
             <th class="py-2 px-2 border_black" style="min-width: 225px;">Name</th>
             <th class="py-2 px-2 border_black" style="min-width: 225px;">Uploaded at</th>
             <th class="py-2 px-2 border_black" style="min-width: 90px;">Size</th>
-            <th class="py-2 px-2 border_black" style="min-width: 150px;">Tags <br>
+            <th class="py-2 px-2 border_black" style="min-width: 300px;">Tags <br>
                 <div class="text-muted">Hide suggested tags? <input type="checkbox" id="hideVisionTags"
                         onclick="hideVisionTags()">
                 </div>
@@ -91,7 +93,11 @@
             </td>
             <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
             <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
-            <td class="py-2 px-2 border_black">{{ image.tags }}</td>
+            <td class="py-2 px-2 border_black">{{ image.tags }} <br> <br><span class="vision_tags"
+                    style="display: block;"><strong>Suggested
+                        tags:</strong>
+                    {{ image.vision_tags }}</span>
+            </td>
             <td class="py-2 px-2 border_black">
                 <!--IMAGE DELETE-->
                 <form action="{% url 'imageDelete' image.id %}" method="POST">
