@@ -125,7 +125,13 @@ def imageSearch(request):
 
         return render(request, 'repo/index.html', {'found_images': unique_images[::-1]})
 
-# deletes images and deletes image in S3 bucket
+# deletes image row based on ID from db and deletes image in S3 bucket
+# @params request: takes in the POST request provided by the delete form in index.html
+#         **kwargs: keyword arguments provided by the url
+# @returns an HttpResponse which leads back to a template (index.html) after performing the operation of
+#          deleting the item in the db which has the matching ID provided by the 'pk' key word argument parameter
+#          If AWS S3 is being used and an AWS_ACCESS_KEY_ID (and other necessary credentials are provided), the
+#          image with the matching image URL in the S3 bucket will be deleted
 
 
 def imageDelete(request, **kwargs):
