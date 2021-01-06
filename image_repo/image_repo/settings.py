@@ -14,6 +14,8 @@ import os
 from decouple import config
 from django.utils import timezone
 import boto3
+import random
+import string
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+letters = string.ascii_lowercase
+SECRET_KEY = ''.join(random.choice(letters) for i in range(10))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -127,6 +130,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
+'''
 # AWS SETTINGS
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -141,8 +145,6 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_REGION_NAME = 'us-east-2'
 AWS_DEFAULT_ACL = None
 
-AWS_SECRETS_NAME = 'django_secrets'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'repo/static'),
 ]
@@ -153,6 +155,7 @@ STATIC_URL = 'https://%s.s3.%s.amazonaws.com/%s/' % (
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 DEFAULT_FILE_STORAGE = 'image_repo.storage_backends.MediaStorage'
+'''
 
 # GOOGLE SETTINGS
 GOOGLE_APPLICATION_CREDENTIALS = config('GOOGLE_APPLICATION_CREDENTIALS')

@@ -58,8 +58,7 @@
             <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
             <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
             <td class="py-2 px-2 border_black">{{ image.tags }}
-                {% if image.vision_tags != None %}
-
+                {% if image.vision_tags != "" %}
                 <span class="vision_tags" style="display: block;"><br><strong>Suggested
                         tags:</strong>
                     {{ image.vision_tags }}</span>
