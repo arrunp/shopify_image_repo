@@ -11,7 +11,7 @@ import numpy as np
 # If the Google Vision API credentials are provided in settings, image_detect will use the API to provide tag suggestions
 # for an image based on object detection. If the credentials are not provided it will use the python library 'cvlib' for
 # providing these object detection suggestions
-# @params image_url: the url of the image that the object detection will be run on
+# @params image_url: the URL of the image that the object detection will be run on
 # @returns suggested_vision_tags: a string of suggested tags for the image based on objects detected in it
 
 
