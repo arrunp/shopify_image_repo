@@ -131,7 +131,8 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 '''
-#Please refer to .env.template for how to set these variables if AWS S3 or the Google Cloud Vision API is to be used
+# Please refer to .env.template for how to set these variables with your own credentials in a .env file placed
+# in the shopify_image_repo directory, if AWS S3 or the Google Cloud Vision API is to be used
 
 # AWS SETTINGS
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
