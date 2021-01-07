@@ -131,6 +131,8 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 '''
+#Please refer to .env.template for how to set these variables if AWS S3 or the Google Cloud Vision API is to be used
+
 # AWS SETTINGS
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -142,7 +144,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 AWS_LOCATION = 'static'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_S3_REGION_NAME = 'us-east-2'
+AWS_S3_REGION_NAME = config('AWS_DEFAULT_REGION')
 AWS_DEFAULT_ACL = None
 
 STATICFILES_DIRS = [
@@ -155,7 +157,8 @@ STATIC_URL = 'https://%s.s3.%s.amazonaws.com/%s/' % (
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 DEFAULT_FILE_STORAGE = 'image_repo.storage_backends.MediaStorage'
-'''
+
 
 # GOOGLE SETTINGS
 GOOGLE_APPLICATION_CREDENTIALS = config('GOOGLE_APPLICATION_CREDENTIALS')
+'''

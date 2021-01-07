@@ -11,9 +11,7 @@ from django.db.models import Q
 import boto3
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
-from google.cloud import vision
-from google.cloud.vision_v1 import types
-import os
+from .vision_detect import image_detect
 # Create your views here.
 
 current_image_name = None
@@ -35,41 +33,13 @@ class ImageCreateView(CreateView):
     template_name = 'repo/index.html'
     success_url = reverse_lazy('home')
 
-    # If the Google Vision API credentials are provided, image_detect will use the API to provide tag suggestions
-    # for an image based on object detection. If the credentials are not provided it will use the python cvlib for
-    # providing these object detection suggestions
-    # @params image_url: the url of the image that the object detection will be run on
-    # @returns suggested_vision_tags: a string of suggested tags for the image based on objects detected in it
-    def image_detect(self, image_url):
-
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = settings.GOOGLE_APPLICATION_CREDENTIALS
-
-        client = vision.ImageAnnotatorClient()
-
-        labels = []
-        label_string = ""
-
-        image = types.Image()
-        image.source.image_uri = image_url
-
-        response_label = client.label_detection(image=image)
-
-        for label in response_label.label_annotations:
-            labels.append(label.description)
-
-        for label in labels:
-            if len(label.split()) == 1:
-                label_string += label + ", "
-
-        suggested_vision_tags = label_string.strip(', ')
-        return suggested_vision_tags
-
     # 1) checks if image being uploaded through the form has the same name as a file already uploaded
     # 2) updates the imageName field in the database of the image being uploaded with the (new) name of the image
     #    (django changes the name of the image if there are duplicates, this imageName field keeps track of
     #    that in the DB)
     # @params form: the current form (CreateView)
     # @returns saves the form instance and redirects to the success_url by default
+
     def form_valid(self, form):
         send_warning = False
         current_image = form.save(commit=False)
@@ -78,7 +48,7 @@ class ImageCreateView(CreateView):
             send_warning = True
         images = Image.objects.all()
         current_image.save()
-        current_image.vision_tags = self.image_detect(current_image.image.url)
+        current_image.vision_tags = image_detect(current_image.image.url)
         current_image.imageName = current_image.image.name
         current_image.save()
 
@@ -152,7 +122,7 @@ def imageSearch(request):
         # now being converted to a list.
         unique_images = list(unique_images)
 
-        return render(request, 'repo/search.html', {'found_images': unique_images[::-1]})
+        return render(request, 'repo/search.html', {'found_images': unique_images})
 
 # Deletes image row in DB based on ID and deletes image in S3 bucket
 # @params request: takes in the POST request provided by the delete form in index.html
@@ -160,7 +130,7 @@ def imageSearch(request):
 # @returns an HttpResponse which leads back to a template (index.html) after performing the operation of
 #          deleting the item in the db which has the matching ID provided by the 'pk' key word argument parameter.
 #          If AWS S3 is being used and an AWS_ACCESS_KEY_ID (and other necessary credentials are provided), the
-#          image with the matching image URL in the S3 bucket will be deleted
+#          image with the matching name in the S3 bucket will be deleted
 
 
 def imageDelete(request, **kwargs):
@@ -182,7 +152,7 @@ def imageDelete(request, **kwargs):
                           'media/' + Image.objects.filter(
                               id=kwargs['pk']).first().image.name).delete()
 
-            except AttributeError:
+            except:
                 pass
 
             Image.objects.filter(id=image_id).first().delete()
