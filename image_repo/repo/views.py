@@ -41,6 +41,8 @@ class ImageCreateView(CreateView):
     # @returns saves the form instance and redirects to the success_url by default
 
     def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.uploader = self.request.user
         send_warning = False
         current_image = form.save(commit=False)
         prev_name = current_image.image.name

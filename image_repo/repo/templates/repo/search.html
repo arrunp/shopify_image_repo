@@ -18,8 +18,9 @@
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Thumbnail</th>
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Title</th>
             <th class="py-2 px-2 border_black" style="min-width: 225px;">Name</th>
-            <th class="py-2 px-2 border_black" style="min-width: 225px;">Uploaded at</th>
+            <th class="py-2 px-2 border_black" style="min-width: 225px;">Date</th>
             <th class="py-2 px-2 border_black" style="min-width: 90px;">Size</th>
+            <th class="py-2 px-2 border_black" style="min-width: 90px;">Uploader</th>
             <th class="py-2 px-2 border_black" style="min-width: 300px;">Tags <br>
                 <div class="text-muted">Hide suggested tags <input type="checkbox" id="hideVisionTags"
                         onclick="hideVisionTags()">
@@ -41,6 +42,7 @@
                     }
                 </script>
             </th>
+
         </tr>
     </thead>
     <tbody>
@@ -57,6 +59,13 @@
             </td>
             <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
             <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2 border_black">
+                {% if image.uploader %}
+                {{ image.uploader }}
+                {% else %}
+                'Guest User'
+                {% endif %}
+            </td>
             <td class="py-2 px-2 border_black">{{ image.tags }}
                 {% if image.vision_tags != "" %}
                 <span class="vision_tags" style="display: block;"><br><strong>Suggested
