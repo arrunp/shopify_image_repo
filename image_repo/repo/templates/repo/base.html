@@ -12,19 +12,21 @@
 </head>
 
 <body style="padding-top:70px;">
-    <nav class="navbar navbar-expand-md fixed-top" style="background-color: rgb(1, 1, 56)">
-        <a class="navbar-brand mr-4" href="{% url 'home' %}" style="color: white;">Image Repo</a>
+    <nav class="navbar navbar-expand-md fixed-top px-3" style="background-color: rgb(191, 191, 196)">
+        <a class="navbar-brand mr-4" href="{% url 'home' %}" style="color: rgb(21, 18, 29);">Image Repo</a>
+        <a class=" nav-item nav-link" href="{% url 'history' %}">History</a>
         <div class="collapse navbar-collapse">
-            <div class=" navbar-nav">
-                <a class=" nav-item nav-link" href="{% url 'history' %}">History</a>
+            <ul class="nav navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-                <a class=" nav-item nav-link" href="{% url 'imageViewArchive' %}">Archives</a>
-                <a class=" nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                <li class="nav-item"><a class=" nav-item nav-link" href="{% url 'imageViewArchive' %}">Archives</a>
+                </li>
+                <li class="nav-item"><a class=" nav-item nav-link" href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                <a class=" nav-item nav-link" href="{% url 'login' %}">Login</a>
-                <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                <li class="nav-item"><a class=" nav-item nav-link" href="{% url 'login' %}">Login</a></li>
+                <li class="nav-item"><a class="nav-item nav-link" href="{% url 'register' %}">Register</a></li
+                    class="nav-item">
                 {% endif %}
-            </div>
+            </ul>
         </div>
     </nav>
     {% if messages %}
