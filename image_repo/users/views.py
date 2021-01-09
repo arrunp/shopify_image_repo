@@ -33,7 +33,6 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-@login_required
 def archive(request, **kwargs):
     if request.method == 'POST':
         if request.POST.get('imageArchive'):
@@ -57,10 +56,9 @@ def archive(request, **kwargs):
             return HttpResponseRedirect(reverse('home'))
 
 
+@login_required
 def viewArchive(request):
-
     archived_images = Image.objects.filter(
         uploader=request.user).filter(archived=True)
-    print(archived_images)
 
     return render(request, 'users/archive.html', {'archived_images': archived_images})
