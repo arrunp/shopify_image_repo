@@ -1,50 +1,15 @@
 {% extends "repo/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 
-<!--IMAGE UPLOAD-->
-<h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Upload your image here:</h5>
-<div style="display:block;" class="my-3 my-lg-3 mx-5 mx-lg-5">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <p>If you have multiple tags, <strong>please separate your tags with a comma</strong></p>
-        <button class="btn btn-primary" type="submit" class="my-3 my-lg-3">Submit</button>
-    </form>
+<h2 class="px-4 py-2">{{ user.username }}'s Archived Images</h2>
 
-    <hr>
-</div>
-
-<!--IMAGE SEARCH-->
-<form action="{% url 'imageSearch' %}" method="get" class="form-inline my-3 my-lg-3 mx-3 mx-lg-3">
-    {% csrf_token %}
-    <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
-    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-    <div class="text-muted" style="margin-left: 15px;"> Include 'Suggested tags' in search <input type="checkbox"
-            id="vision_tag_search" name="vision_tag_search">
-    </div>
-</form>
-
-<!--WARNING FOR IMAGE DUPLICATES-->
-{% if current_image_name != None %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert"
-    style="margin-top: auto; margin-bottom: auto;">
-    Due to an image with the same name, image name was changed to
-    '{{ current_image_name }}.'
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-{% endif %}
-
-<!--LIST OF UPLOADED IMAGES-->
 <table style="text-align: center;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <thead>
         <tr>
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Thumbnail</th>
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Title</th>
             <th class="py-2 px-2 border_black" style="min-width: 225px;">Name</th>
-            <th class="py-2 px-2 border_black" style="min-width: 225px;">Date</th>
+            <th class="py-2 px-2 border_black" style="min-width: 225px;">Archived Date</th>
             <th class="py-2 px-2 border_black" style="min-width: 90px;">Size</th>
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Uploader</th>
             <th class="py-2 px-2 border_black" style="min-width: 300px;">Tags <br>
@@ -73,9 +38,8 @@
     </thead>
     <tbody>
         <!--LIST OF UPLOADED IMAGES-->
-        <h5 class="my-4 my-lg-4 mx-3 mx-lg-3">Uploaded Images:</h5>
-        {% for image in images %}
-        {% if image.archived == False %}
+        {% for image in archived_images %}
+
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3 border_black">
             <td class="py-2 px-2 border_black"><img src="{{ image.image.url }}" style="height: 50px; width: 50px;"></td>
             <td class="py-2 px-2 border_black">{{ image.title }}</td>
@@ -101,24 +65,26 @@
                     <input name="imageDelete" type="submit" value="Delete" class="btn btn-danger"
                         onclick="return confirm('Are you sure you would like to delete this image?');" />
                 </form>
-                <!--IMAGE ARCHIVE-->
+                <!--IMAGE UNARCHIVE-->
                 <form action="{% url 'imageArchive' image.id %}" method="POST">
                     {% csrf_token %}
-                    <input name="imageArchive" type="submit" value="Archive" class="btn btn-warning"
-                        onclick="return confirm('Are you sure you would like to archive this image?');" />
+                    <input name="imageArchive" type="submit" value="Unarchive" class="btn btn-warning"
+                        onclick="return confirm('Are you sure you would like to unarchive this image?');" />
                 </form>
             </td>
         </tr>
         {{ image.image.thumbnail }}
         <!--IF THERE ARE NO IMAGES UPLOADED-->
-        {% endif %}
+
         {% empty %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
             <td class="py-2 px-2" colspan="6">No data.</td>
         </tr>
-        <a class="my-4 my-lg-4 mx-3 mx-lg-3" href="{% url 'home' %}"><button class="btn btn-primary">Click to
+        <a class="my-4 my-lg-4 mx-3 mx-lg-3" href="{% url 'imageViewArchive' %}"><button class="btn btn-primary">Click
+                to
                 Refresh</button></a>
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock content %}

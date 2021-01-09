@@ -18,8 +18,9 @@
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Thumbnail</th>
             <th class="py-2 px-2 border_black" style="min-width: 100px;">Title</th>
             <th class="py-2 px-2 border_black" style="min-width: 225px;">Name</th>
-            <th class="py-2 px-2 border_black" style="min-width: 225px;">Uploaded at</th>
+            <th class="py-2 px-2 border_black" style="min-width: 225px;">Date</th>
             <th class="py-2 px-2 border_black" style="min-width: 90px;">Size</th>
+            <th class="py-2 px-2 border_black" style="min-width: 100px;">Uploader</th>
             <th class="py-2 px-2 border_black" style="min-width: 300px;">Tags <br>
                 <div class="text-muted">Hide suggested tags <input type="checkbox" id="hideVisionTags"
                         onclick="hideVisionTags()">
@@ -41,6 +42,7 @@
                     }
                 </script>
             </th>
+
         </tr>
     </thead>
     <tbody>
@@ -49,6 +51,7 @@
         <a href="{% url 'home' %}"><button class="btn btn-primary my-3 my-lg-3 mx-3 mx-lg-3">Back to Home</button></a>
         <h5 class=" my-3 my-lg-3 mx-3 mx-lg-3">Search Results: </h5>
         {% for image in found_images %}
+        {% if image.archived == False %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3 border_black">
             <td class="py-2 px-2 border_black"><img src="{{ image.image.url }}" style="height: 50px; width: 50px;"></td>
             <td class="py-2 px-2 border_black">{{ image.title }}</td>
@@ -57,6 +60,7 @@
             </td>
             <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
             <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
+            <td class="py-2 px-2 border_black">{{ image.uploader }}</td>
             <td class="py-2 px-2 border_black">{{ image.tags }}
                 {% if image.vision_tags != "" %}
                 <span class="vision_tags" style="display: block;"><br><strong>Suggested
@@ -71,8 +75,15 @@
                     <input name="imageDelete" type="submit" value="Delete" class="btn btn-danger"
                         onclick="return confirm('Are you sure you would like to delete this image?');" />
                 </form>
+                <!--IMAGE ARCHIVE-->
+                <form action="{% url 'imageArchive' image.id %}" method="POST">
+                    {% csrf_token %}
+                    <input name="imageArchive" type="submit" value="Archive" class="btn btn-warning"
+                        onclick="return confirm('Are you sure you would like to archive this image?');" />
+                </form>
             </td>
         </tr>
+        {% endif %}
         {% empty %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
             <td class="py-2 px-2" colspan="6">No data.</td>

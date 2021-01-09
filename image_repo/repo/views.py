@@ -3,12 +3,13 @@ from django.dispatch import receiver
 from django.views import generic
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .models import Image
+from .models import Image, History
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
 import boto3
+from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from .vision_detect import image_detect
@@ -41,6 +42,12 @@ class ImageCreateView(CreateView):
     # @returns saves the form instance and redirects to the success_url by default
 
     def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            form.instance.uploader = self.request.user
+        else:
+            messages.warning(
+                self.request, f'Please log in to upload an image!')
+            return redirect('login')
         send_warning = False
         current_image = form.save(commit=False)
         prev_name = current_image.image.name
@@ -51,6 +58,9 @@ class ImageCreateView(CreateView):
         current_image.vision_tags = image_detect(current_image.image.url)
         current_image.imageName = current_image.image.name
         current_image.save()
+        history = History(user=self.request.user.username, url=current_image.image.url, title=current_image.title,
+                          name=current_image.image.name, action='uploaded')
+        history.save()
 
         if send_warning == True:
             global current_image_name
@@ -81,6 +91,17 @@ class ImageCreateView(CreateView):
 # @returns an HttpResponse which renders a template (index.html) with a provided dictionary of values
 #          (this dictionary has one key, found_images, which contains the images that match the search criteria a
 #           and this data is sent to be on the rendered index.html)
+
+
+class HistoryListView(ListView):
+    model = History
+    template_name = 'repo/history.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        history = History.objects.all().order_by('-date')
+        context['history'] = history
+        return context
 
 
 def imageSearch(request):
@@ -136,25 +157,38 @@ def imageSearch(request):
 def imageDelete(request, **kwargs):
     if request.method == 'POST':
         if request.POST.get('imageDelete'):
+            if request.user.is_authenticated:
+                image = Image.objects.filter(id=kwargs['pk']).first()
+                if request.user == image.uploader:
+                    image_id = image.id
+                    try:
+                        session = boto3.Session(
+                            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                        )
 
-            image_id = Image.objects.filter(
-                id=kwargs['pk']).first().id
+                        s3 = session.resource('s3')
 
-            try:
-                session = boto3.Session(
-                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-                )
+                        s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
+                                  'media/' + Image.objects.filter(
+                                      id=kwargs['pk']).first().image.name).delete()
 
-                s3 = session.resource('s3')
+                    except:
+                        pass
 
-                s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
-                          'media/' + Image.objects.filter(
-                              id=kwargs['pk']).first().image.name).delete()
+                    history = History(user=request.user.username, title=image.title,
+                                      name=image.imageName, action='deleted')
 
-            except:
-                pass
+                    history.save()
+                    Image.objects.filter(id=image_id).first().delete()
 
-            Image.objects.filter(id=image_id).first().delete()
+                else:
+                    messages.warning(
+                        request, f'You cannot delete images you did not upload.')
+
+            else:
+                messages.warning(
+                    request, f'You cannot delete images you did not upload.')
+                return redirect('login')
 
         return HttpResponseRedirect(reverse('home'))
