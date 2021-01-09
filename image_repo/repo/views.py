@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.views import generic
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from .models import Image
+from .models import Image, History
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
@@ -58,6 +58,9 @@ class ImageCreateView(CreateView):
         current_image.vision_tags = image_detect(current_image.image.url)
         current_image.imageName = current_image.image.name
         current_image.save()
+        history = History(user=self.request.user.username,
+                          name=current_image.image.name, action='uploaded')
+        history.save()
 
         if send_warning == True:
             global current_image_name
@@ -88,6 +91,17 @@ class ImageCreateView(CreateView):
 # @returns an HttpResponse which renders a template (index.html) with a provided dictionary of values
 #          (this dictionary has one key, found_images, which contains the images that match the search criteria a
 #           and this data is sent to be on the rendered index.html)
+
+
+class HistoryListView(ListView):
+    model = History
+    template_name = 'repo/history.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        history = History.objects.all().order_by('-date')
+        context['history'] = history
+        return context
 
 
 def imageSearch(request):
@@ -143,25 +157,37 @@ def imageSearch(request):
 def imageDelete(request, **kwargs):
     if request.method == 'POST':
         if request.POST.get('imageDelete'):
+            if request.user.is_authenticated:
+                image = Image.objects.filter(id=kwargs['pk']).first()
+                if request.user == image.uploader:
+                    image_id = image.id
+                    try:
+                        session = boto3.Session(
+                            aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+                            aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+                        )
 
-            image_id = Image.objects.filter(
-                id=kwargs['pk']).first().id
+                        s3 = session.resource('s3')
 
-            try:
-                session = boto3.Session(
-                    aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-                    aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-                )
+                        s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
+                                  'media/' + Image.objects.filter(
+                                      id=kwargs['pk']).first().image.name).delete()
 
-                s3 = session.resource('s3')
+                    except:
+                        pass
 
-                s3.Object(settings.AWS_STORAGE_BUCKET_NAME,
-                          'media/' + Image.objects.filter(
-                              id=kwargs['pk']).first().image.name).delete()
+                    history = History(name=image.imageName,
+                                      user=request.user.username, action='deleted')
+                    history.save()
+                    Image.objects.filter(id=image_id).first().delete()
 
-            except:
-                pass
+                else:
+                    messages.warning(
+                        request, f'You cannot delete images you did not upload.')
 
-            Image.objects.filter(id=image_id).first().delete()
+            else:
+                messages.warning(
+                    request, f'You cannot delete images you did not upload.')
+                return redirect('login')
 
         return HttpResponseRedirect(reverse('home'))
