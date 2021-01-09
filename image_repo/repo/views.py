@@ -58,7 +58,7 @@ class ImageCreateView(CreateView):
         current_image.vision_tags = image_detect(current_image.image.url)
         current_image.imageName = current_image.image.name
         current_image.save()
-        history = History(user=self.request.user.username,
+        history = History(user=self.request.user.username, url=current_image.image.url, title=current_image.title,
                           name=current_image.image.name, action='uploaded')
         history.save()
 
@@ -176,8 +176,9 @@ def imageDelete(request, **kwargs):
                     except:
                         pass
 
-                    history = History(name=image.imageName,
-                                      user=request.user.username, action='deleted')
+                    history = History(user=request.user.username, title=image.title,
+                                      name=image.imageName, action='deleted')
+
                     history.save()
                     Image.objects.filter(id=image_id).first().delete()
 

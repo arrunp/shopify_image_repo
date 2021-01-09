@@ -51,6 +51,7 @@
         <a href="{% url 'home' %}"><button class="btn btn-primary my-3 my-lg-3 mx-3 mx-lg-3">Back to Home</button></a>
         <h5 class=" my-3 my-lg-3 mx-3 mx-lg-3">Search Results: </h5>
         {% for image in found_images %}
+        {% if image.archived == False %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3 border_black">
             <td class="py-2 px-2 border_black"><img src="{{ image.image.url }}" style="height: 50px; width: 50px;"></td>
             <td class="py-2 px-2 border_black">{{ image.title }}</td>
@@ -74,8 +75,15 @@
                     <input name="imageDelete" type="submit" value="Delete" class="btn btn-danger"
                         onclick="return confirm('Are you sure you would like to delete this image?');" />
                 </form>
+                <!--IMAGE ARCHIVE-->
+                <form action="{% url 'imageArchive' image.id %}" method="POST">
+                    {% csrf_token %}
+                    <input name="imageArchive" type="submit" value="Archive" class="btn btn-warning"
+                        onclick="return confirm('Are you sure you would like to archive this image?');" />
+                </form>
             </td>
         </tr>
+        {% endif %}
         {% empty %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
             <td class="py-2 px-2" colspan="6">No data.</td>

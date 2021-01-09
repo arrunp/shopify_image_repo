@@ -20,13 +20,15 @@ class Image(models.Model):
 
 class History(models.Model):
     uploaded = 'uploaded'
-    deleted = 'ueleted'
+    deleted = 'deleted'
     STATUS_CHOICES = [
         (uploaded, 'uploaded'),
-        (deleted, 'ueleted'),
+        (deleted, 'deleted'),
     ]
 
     user = models.CharField(max_length=20)
+    url = models.CharField(max_length=200, null=True, blank=True)
+    title = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     action = models.CharField(max_length=8, choices=STATUS_CHOICES)
     date = models.DateTimeField(auto_now=True)
