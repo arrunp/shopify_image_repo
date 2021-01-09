@@ -9,6 +9,7 @@ from django.views.generic.list import ListView
 from django.urls import reverse_lazy, reverse
 from django.db.models import Q
 import boto3
+from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from .vision_detect import image_detect
@@ -43,6 +44,10 @@ class ImageCreateView(CreateView):
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.uploader = self.request.user
+        else:
+            messages.warning(
+                self.request, f'Please log in to upload an image!')
+            return redirect('login')
         send_warning = False
         current_image = form.save(commit=False)
         prev_name = current_image.image.name
