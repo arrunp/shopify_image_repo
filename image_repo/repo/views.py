@@ -34,10 +34,12 @@ class ImageCreateView(CreateView):
     template_name = 'repo/index.html'
     success_url = reverse_lazy('home')
 
-    # 1) checks if image being uploaded through the form has the same name as a file already uploaded
-    # 2) updates the imageName field in the database of the image being uploaded with the (new) name of the image
+    # 1) Checks if image being uploaded through the form has the same name as a file already uploaded
+    # 2) Updates the imageName field in the database of the image being uploaded with the (new) name of the image
     #    (django changes the name of the image if there are duplicates, this imageName field keeps track of
     #    that in the DB)
+    # 3) Checks that the user submitting an image is logged into their account
+    # 4) Updates the history that a new image was uploaded
     # @params form: the current form (CreateView)
     # @returns saves the form instance and redirects to the success_url by default
 
@@ -83,6 +85,26 @@ class ImageCreateView(CreateView):
         current_image_name = None
         return context
 
+# Lists the history entries on the template history.html
+# @params ListView provides a list of the provided History model
+# @returns a response to the template containing the History objects in the DB
+
+
+class HistoryListView(ListView):
+    model = History
+    template_name = 'repo/history.html'
+
+    # The context data is provided to the rendered template
+    # @params **kwargs: a dictionary of keyword arguments
+    # @returns The context data (a dictionary of values) will be returned and sent to the template.
+    #          Context has the history enteries (context['history']. The enteries are held in context in chronologial
+    #          order (latest history entries first)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        history = History.objects.all().order_by('-date')
+        context['history'] = history
+        return context
+
 # Used to search for images that match the search criteria (searches image title, name and tags)
 # @params request: takes in the GET request provided by the search form in index.html.
 #                  Depending on if the vision_tag_search checkbox is checked or not, the suggested tags
@@ -91,17 +113,6 @@ class ImageCreateView(CreateView):
 # @returns an HttpResponse which renders a template (index.html) with a provided dictionary of values
 #          (this dictionary has one key, found_images, which contains the images that match the search criteria a
 #           and this data is sent to be on the rendered index.html)
-
-
-class HistoryListView(ListView):
-    model = History
-    template_name = 'repo/history.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        history = History.objects.all().order_by('-date')
-        context['history'] = history
-        return context
 
 
 def imageSearch(request):
@@ -145,7 +156,7 @@ def imageSearch(request):
 
         return render(request, 'repo/search.html', {'found_images': unique_images})
 
-# Deletes image row in DB based on ID and deletes image in S3 bucket
+# Deletes image row in DB based on ID and deletes image in S3 bucket. Updates history that user deleted an uploaded image.
 # @params request: takes in the POST request provided by the delete form in index.html
 #         **kwargs: keyword arguments provided by the url
 # @returns an HttpResponse which leads back to a template (index.html) after performing the operation of
