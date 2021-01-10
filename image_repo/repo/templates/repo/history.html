@@ -1,8 +1,8 @@
 {% extends "repo/base.html" %}
 {% block content %}
 
-<h2 class="px-4 py-2">History</h2>
-<a class="my-4 my-lg-4 mx-3 mx-lg-3" href="{% url 'home' %}"><button class="btn btn-primary">Back to Home</button></a>
+<h2 class="py-2 mx-5 mx-lg-5">History</h2>
+<a class="my-4 my-lg-4 mx-5 mx-lg-5" href="{% url 'home' %}"><button class="btn btn-primary">Back to Home</button></a>
 <table style="text-align: center;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <thead>
         <tr>
@@ -33,7 +33,7 @@
 
             {% empty %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
-            <td class="py-2 px-2" colspan="6">No data.</td>
+            <td class="py-2 px-2" colspan="5">No data.</td>
         </tr>
         <a class="my-4 my-lg-4 mx-3 mx-lg-3" href="{% url 'history' %}"><button class="btn btn-primary">Click to
                 Refresh</button></a>

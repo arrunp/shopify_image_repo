@@ -3,7 +3,7 @@
 {% block content %}
 
 <!--IMAGE UPLOAD-->
-<h5 class="my-3 my-lg-3 mx-3 mx-lg-3">Upload your image here:</h5>
+<h5 class="my-3 my-lg-3 mx-5 mx-lg-5">Upload your image here:</h5>
 <div style="display:block;" class="my-3 my-lg-3 mx-5 mx-lg-5">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -16,7 +16,7 @@
 </div>
 
 <!--IMAGE SEARCH-->
-<form action="{% url 'imageSearch' %}" method="get" class="form-inline my-3 my-lg-3 mx-3 mx-lg-3">
+<form action="{% url 'imageSearch' %}" method="get" class="form-inline my-3 my-lg-3 mx-5 mx-lg-5">
     {% csrf_token %}
     <input class="form-control mr-sm-2" type="search" name="imageSearch" placeholder="Search" aria-label="Search">
     <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
@@ -68,12 +68,11 @@
                     }
                 </script>
             </th>
-
         </tr>
     </thead>
     <tbody>
         <!--LIST OF UPLOADED IMAGES-->
-        <h5 class="my-4 my-lg-4 mx-3 mx-lg-3">Uploaded Images:</h5>
+        <h5 class="my-4 my-lg-4 mx-5 mx-lg-5">Uploaded Images:</h5>
         {% for image in images %}
         {% if image.archived == False %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3 border_black">
@@ -85,7 +84,10 @@
             <td class="py-2 px-2 border_black">{{ image.date }} EST</td>
             <td class="py-2 px-2 border_black">{{ image.image.size|filesizeformat }}</td>
             <td class="py-2 px-2 border_black">{{ image.uploader }}</td>
-            <td class="py-2 px-2 border_black">{{ image.tags }}
+            <td class="py-2 px-2 border_black">
+                {% if image.tags != None %}
+                {{ image.tags }}
+                {% endif %}
                 {% if image.vision_tags != "" %}
                 <span class="vision_tags" style="display: block;"><br><strong>Suggested
                         tags:</strong>
@@ -114,7 +116,7 @@
         {% endif %}
         {% empty %}
         <tr class="my-3 my-lg-3 mx-3 mx-lg-3">
-            <td class="py-2 px-2" colspan="6">No data.</td>
+            <td class="py-2 px-2" colspan="7">No data.</td>
         </tr>
         <a class="my-4 my-lg-4 mx-3 mx-lg-3" href="{% url 'home' %}"><button class="btn btn-primary">Click to
                 Refresh</button></a>
