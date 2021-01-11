@@ -7,13 +7,12 @@ from django.urls import reverse
 from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-
 # Creating a user registration form that is going to be passed to the HTML template
 # Django handles validation checks (ex. passwords match, valid email, correct types of information for fields
 # are being inputted) through the UserCreationForm(). This form is treated as a class that will be converted into
-# the HTML template
-# @returns: the form created is passed to the template (register.html) to create a new user
+# the HTML template.
+# @params request: takes in the POST request provided by the form in register.html
+# @returns the form created is passed to the template (register.html) to create a new user
 
 
 def register(request):
@@ -32,8 +31,11 @@ def register(request):
 
     return render(request, 'users/register.html', {'form': form})
 
+#
+
 
 def archive(request, **kwargs):
+
     if request.method == 'POST':
         if request.POST.get('imageArchive'):
             if request.user.is_authenticated:

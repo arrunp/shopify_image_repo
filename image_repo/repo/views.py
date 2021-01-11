@@ -18,7 +18,7 @@ from .vision_detect import image_detect
 current_image_name = None
 
 # View to create new image upload
-# @params for this class is CreateView, a django view that displays a form for creating an object and saving it
+# @params CreateView: a django view that displays a form for creating an object and saving it
 #         - The field 'model' is Image, as this form will be creating an Image object
 #         - The fields included on the form based on the Image model are 'title', 'image', and 'tags' (please refer to models.py
 #         to see the types for these fields)
@@ -86,7 +86,7 @@ class ImageCreateView(CreateView):
         return context
 
 # Lists the history entries on the template history.html
-# @params ListView provides a list of the provided History model
+# @params ListView: provides a list of the provided History model
 # @returns a response to the template containing the History objects in the DB
 
 
