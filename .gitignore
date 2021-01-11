@@ -133,3 +133,4 @@ dmypy.json
 image_env/
 image_repo/media/
 vision.json
+image_repo/static/admin/
