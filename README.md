@@ -3,7 +3,7 @@
 
 <u><h2>Table of Contents</h2></u>
 <ol>
-<li>Instructions for running the program from repo</li>
+<li>Instructions for running the program</li>
     <ul>
         <li>Starting using the bash script</li>
         <li>Manual start</li>
@@ -22,7 +22,7 @@
 <li>AWS S3 and Google Vision API</li>
 </ol>
 
-<h2>1) Instructions for running the program from repo:</h2>
+<h2>1) Instructions for running the program:</h2>
 <p>Application requires Python (v3.7.3 or higher)</p>
 <u>Starting using the bash script:</u>
     <ol>
