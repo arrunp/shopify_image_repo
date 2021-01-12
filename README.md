@@ -86,10 +86,9 @@
 
 <img src="./readme_img/template.jpg">
 
-<p>Those that begin with 'AWS' handle AWS S3 access and the field that starts with 'GOOGLE' is the name of the service account key json file for the Google Vision API (this file should be placed in '/shopify_image_repo/image_repo/ (the same directory as manage.py). </p>
-<p>For instructions on how to get the Google Vision API service account json key <a href="https://daminion.net/docs/topics/auto-tagging/how-to-get-google-cloud-vision-api-key/">follow these instructions.</a></p>
+<p>Those that begin with 'AWS' handle AWS S3 access and the field that starts with 'GOOGLE' is the name of the service account key json file for the Google Vision API (this file should be placed in '/shopify_image_repo/image_repo/ (the same directory as manage.py). For instructions on how to get the Google Vision API Service Account JSON key <a href="https://daminion.net/docs/topics/auto-tagging/how-to-get-google-cloud-vision-api-key/">follow these instructions.</a></p>
 
-For instructions on how to get the AWS credentials <a href="https://imranhsayed.medium.com/how-to-create-a-user-and-bucket-amazon-web-services-aws-40631416e65">follow these instructions.</a> However, make the bucket public and change the Bucket Policy to: </p>
+For instructions on how to get the AWS credentials <a href="https://imranhsayed.medium.com/how-to-create-a-user-and-bucket-amazon-web-services-aws-40631416e65">follow these instructions.</a> However, make the Bucket public and change the Bucket Policy to: </p>
 <img src="./readme_img/bucketpolicy.jpg">
 <p>The CORS Config to:</p>
 <img src="./readme_img/cors.jpg">
