@@ -79,7 +79,7 @@ class ImageCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         images = Image.objects.all().order_by('-date')
-        paginator = Paginator(images, 2)
+        paginator = Paginator(images, 1)
 
         page_num = self.request.GET.get('page', 1)
         page = paginator.page(page_num)
