@@ -1,9 +1,14 @@
 # Shopify Image Repo
-<p>Image repo application built using Django and Python. Users can upload images, download, archive and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Notes about adding Google Vision API and S3 bucket credentials in last section of README.</p>
+Link: imagerepoapp.herokuapp.com
+
+<p>Please feel free to create your own account or use the sample account below to log in!</p>
+<p>Username: Test_User</p>
+<p>Password: Testing321</p>
 
 <u><h2>Table of Contents</h2></u>
 <ol>
-<li>Instructions for running the program</li>
+<li>Introduction</li>
+<li>Instructions for running the program from the repo</li>
     <ul>
         <li>Starting using the bash script</li>
         <li>Manual start</li>
@@ -22,7 +27,12 @@
 <li>AWS S3 and Google Vision API</li>
 </ol>
 
-<h2>1) Instructions for running the program:</h2>
+<h2>1) Introduction:</h2>
+
+<p>Image repo application built using Django and Python. Users can upload images, download, archive and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Notes about adding Google Vision API and S3 bucket credentials in last section of README.</p>
+
+
+<h2>2) Instructions for running the program from the repo:</h2>
 <p>Application requires Python (v3.7.3 or higher)</p>
 <u>Starting using the bash script:</u>
     <ol>
@@ -45,7 +55,7 @@
     </ol>
 
 <br/>
-<h2>2) Quick instructions on using the application</h2>
+<h2>3) Quick instructions on using the application</h2>
     <ol>
     <li>When the application first opens, click Register in the top right corner</li>
     <img src="./readme_img/toolbar1.jpg">
@@ -77,7 +87,7 @@
 <p>To register as a new user, click 'Register' in the top tool bar.</p>
 <p>After registering and logging in you can upload an image. You will need a title and an image. You can also add tags to aid in search for the image later however tags are optional.</p>
 -->
-<h2>3) AWS S3 and Google Vision API</h2>
+<h2>4) AWS S3 and Google Vision API</h2>
 <p>Due to security concerns, the AWS S3 (for image storage) and the Google Vision API (for image object detections) credentials could not be provided in the repo. As a default, the application uses local file storage for storing the images and uses the Python library 'cvlib' for object detection.</p>
 
 <p>An .env.template for what credentials need to provided for these services is provided as the settings.py file (the file that sets the settings for Django) will be reading these credentials from a .env file in the home ('shopify_image_repo') directory.</p>
