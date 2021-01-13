@@ -8,7 +8,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <p>If you have multiple tags, <strong>please separate your tags with a comma</strong></p>
+        <p>Tags are optional. If you have multiple tags, <strong>please separate them with a comma</strong></p>
         <button class="btn btn-primary" type="submit" class="my-3 my-lg-3">Submit</button>
     </form>
 

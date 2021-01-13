@@ -19,8 +19,7 @@ def image_detect(image_url):
 
     # The image_detect function will run the object detection algorithm using the Google Vision API
     try:
-
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = settings.GOOGLE_APPLICATION_CREDENTIALS
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
         client = vision.ImageAnnotatorClient()
 
         # If AWS credentials are provided, google image detection will be run on the image URL *
@@ -68,7 +67,6 @@ def image_detect(image_url):
     # As a default, if the vision algorithm cannot be run with the Google Vision API (ex. Google API credentials are not provided),
     # it will be run with the python library 'cvlib.'
     except:
-
         # If AWS credentials are provided, cvlib image detection will be run on the image URL
         try:
 
