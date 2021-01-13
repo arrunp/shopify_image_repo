@@ -37,7 +37,7 @@
     <ol>
     <li>When the application first opens, click Register in the top right corner</li>
     <img src="./readme_img/toolbar1.jpg">
-    <li>Create an account <strong>(ex. username: TestUser, password: Testing321)</strong></li>
+    <li>Create an account</li>
     <img src="./readme_img/register.jpg">
     <li>Login to the account just created (will be automatically redirected however can also use 'Login' link in top toolbar)</li>
     <img src="./readme_img/login.jpg">
