@@ -29,7 +29,7 @@
 
 <h2>1) Introduction:</h2>
 
-<p>Image repo application built using Django and Python. Users can upload images, download, archive and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Notes about adding Google Vision API and S3 bucket credentials in last section of README.</p>
+<p>Image repo application built using Django and Python. Users can upload images, download, archive and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Production uses S3 and Google Vision API **Notes about adding Google Vision API and S3 bucket credentials are in the last section of the README.</p>
 
 
 
