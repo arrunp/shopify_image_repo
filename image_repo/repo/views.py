@@ -195,7 +195,7 @@ def imageDelete(request, **kwargs):
 
                 else:
                     messages.warning(
-                        request, f'You cannot delete images you did not upload.')
+                        request, f'Sorry! You cannot delete images you did not upload.')
 
             else:
                 messages.warning(
