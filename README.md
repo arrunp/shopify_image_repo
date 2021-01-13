@@ -35,7 +35,7 @@
 
 <h2>2) Quick instructions on using the application</h2>
     <ol>
-    <li>When the application first opens, click Register in the top right corner</li>
+    <li>When the application first opens (<a href="http://imagerepoapp.herokuapp.com/">imagerepoapp.herokuapp.com</a>), click Register in the top right corner</li>
     <img src="./readme_img/toolbar1.jpg">
     <li>Create an account</li>
     <img src="./readme_img/register.jpg">
