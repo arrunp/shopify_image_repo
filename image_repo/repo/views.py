@@ -43,6 +43,8 @@ class ImageCreateView(CreateView):
     # @params form: the current form (CreateView)
     # @returns saves the form instance and redirects to the success_url by default
 
+    # pagination
+
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.uploader = self.request.user
