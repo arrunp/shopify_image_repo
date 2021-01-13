@@ -8,12 +8,12 @@
 <u><h2>Table of Contents</h2></u>
 <ol>
 <li>Introduction</li>
+<li>Quick instructions on using the application</li>
 <li>Instructions for running the program from the repo</li>
     <ul>
         <li>Starting using the bash script</li>
         <li>Manual start</li>
     </ul>
-<li>Quick instructions on using the application</li>
 <!--
 <li>Different sections of the application</li>
     <ul>
@@ -32,30 +32,8 @@
 <p>Image repo application built using Django and Python. Users can upload images, download, archive and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Notes about adding Google Vision API and S3 bucket credentials in last section of README.</p>
 
 
-<h2>2) Instructions for running the program from the repo:</h2>
-<p>Application requires Python (v3.7.3 or higher)</p>
-<u>Starting using the bash script:</u>
-    <ol>
-    <li>Download/clone repo (can download as ZIP)</li>
-    <li>In your terminal enter the main directory of the folder “shopify_image_repo”</li>
-    <li>Run 'chmod u+x start.sh'</li>
-    <li>Run './start.sh' or 'bash start.sh'</li>
-    <li>In your browser go to http://127.0.0.1:8000</li>
-    </ol>
 
-<u>Manual start:</u>
-    <ol>
-    <li>Download/clone repo (can download as ZIP)</li>
-    <li>In your terminal enter the main directory of the folder “shopify_image_repo”</li>
-    <li>Run 'pip3 install -r requirements.txt —user'</li>
-    <li>Run 'python3 image_repo/manage.py makemigrations'</li>
-    <li>Run 'python3 image_repo/manage.py migrate'</li>
-    <li>Run 'python3 image_repo/manage.py runserver'</li>
-    <li>In your browser go to http://127.0.0.1:8000</li>
-    </ol>
-
-<br/>
-<h2>3) Quick instructions on using the application</h2>
+<h2>2) Quick instructions on using the application</h2>
     <ol>
     <li>When the application first opens, click Register in the top right corner</li>
     <img src="./readme_img/toolbar1.jpg">
@@ -87,6 +65,31 @@
 <p>To register as a new user, click 'Register' in the top tool bar.</p>
 <p>After registering and logging in you can upload an image. You will need a title and an image. You can also add tags to aid in search for the image later however tags are optional.</p>
 -->
+
+<h2>3) Instructions for running the program from the repo:</h2>
+<p>Application requires Python (v3.7.3 or higher)</p>
+<u>Starting using the bash script:</u>
+    <ol>
+    <li>Download/clone repo (can download as ZIP)</li>
+    <li>In your terminal enter the main directory of the folder “shopify_image_repo”</li>
+    <li>Run 'chmod u+x start.sh'</li>
+    <li>Run './start.sh' or 'bash start.sh'</li>
+    <li>In your browser go to http://127.0.0.1:8000</li>
+    </ol>
+
+<u>Manual start:</u>
+    <ol>
+    <li>Download/clone repo (can download as ZIP)</li>
+    <li>In your terminal enter the main directory of the folder “shopify_image_repo”</li>
+    <li>Run 'pip3 install -r requirements.txt —user'</li>
+    <li>Run 'python3 image_repo/manage.py makemigrations'</li>
+    <li>Run 'python3 image_repo/manage.py migrate'</li>
+    <li>Run 'python3 image_repo/manage.py runserver'</li>
+    <li>In your browser go to http://127.0.0.1:8000</li>
+    </ol>
+
+<br/>
+
 <h2>4) AWS S3 and Google Vision API</h2>
 <p>Due to security concerns, the AWS S3 (for image storage) and the Google Vision API (for image object detections) credentials could not be provided in the repo. As a default, the application uses local file storage for storing the images and uses the Python library 'cvlib' for object detection.</p>
 
