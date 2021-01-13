@@ -78,7 +78,7 @@
 <p>After registering and logging in you can upload an image. You will need a title and an image. You can also add tags to aid in search for the image later however tags are optional.</p>
 -->
 <h2>3) AWS S3 and Google Vision API</h2>
-<p>Due to security concerns, the AWS S3 (for image storage) and the Google Vision API (for image object detections) credentials could not be provided. As a default, the application currently uses local file storage for storing the images and uses the Python library 'cvlib' for object detection.</p>
+<p>Due to security concerns, the AWS S3 (for image storage) and the Google Vision API (for image object detections) credentials could not be provided in the repo. As a default, the application uses local file storage for storing the images and uses the Python library 'cvlib' for object detection.</p>
 
 <p>An .env.template for what credentials need to provided for these services is provided as the settings.py file (the file that sets the settings for Django) will be reading these credentials from a .env file in the home ('shopify_image_repo') directory.</p>
 
@@ -88,7 +88,7 @@
 
 <p>Those that begin with 'AWS' handle AWS S3 access and the field that starts with 'GOOGLE' is the name of the service account key json file for the Google Vision API (this file should be placed in '/shopify_image_repo/image_repo/ (the same directory as manage.py). For instructions on how to get the Google Vision API Service Account JSON key <a href="https://daminion.net/docs/topics/auto-tagging/how-to-get-google-cloud-vision-api-key/">follow these instructions.</a></p>
 
-For instructions on how to get the AWS credentials <a href="https://imranhsayed.medium.com/how-to-create-a-user-and-bucket-amazon-web-services-aws-40631416e65">follow these instructions.</a> However, make the Bucket public and change the Bucket Policy to: </p>
+For instructions on how to get the AWS credentials <a href="https://testdriven.io/blog/storing-django-static-and-media-files-on-amazon-s3/">follow these instructions.</a> However, make the Bucket public and change the Bucket Policy to: </p>
 <img src="./readme_img/bucketpolicy.jpg">
 <p>The CORS Config to:</p>
 <img src="./readme_img/cors.jpg">
