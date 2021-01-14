@@ -1,5 +1,5 @@
 # Shopify Image Repo
-<p>Link: <a target="_blank" href="https://imagerepoapp.herokuapp.com/">imagerepoapp.herokuapp.com</a></p>
+<p>Link: <a href="https://imagerepoapp.herokuapp.com">imagerepoapp.herokuapp.com</a></p>
 
 <p>Please feel free to create your own account or use the sample account below to log in!</p>
 <p>Username: Test_User</p>
