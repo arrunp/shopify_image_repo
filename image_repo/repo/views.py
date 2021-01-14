@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from .vision_detect import image_detect
+from django.core.paginator import Paginator
 # Create your views here.
 
 current_image_name = None
@@ -42,7 +43,6 @@ class ImageCreateView(CreateView):
     # 4) Updates the history that a new image was uploaded
     # @params form: the current form (CreateView)
     # @returns saves the form instance and redirects to the success_url by default
-
     def form_valid(self, form):
         if self.request.user.is_authenticated:
             form.instance.uploader = self.request.user
@@ -79,7 +79,12 @@ class ImageCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         images = Image.objects.all().order_by('-date')
-        context['images'] = images
+        paginator = Paginator(images, 7)
+
+        page_num = self.request.GET.get('page', 1)
+        page = paginator.page(page_num)
+
+        context['images'] = page
         global current_image_name
         context['current_image_name'] = current_image_name
         current_image_name = None
