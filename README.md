@@ -29,8 +29,7 @@
 
 <h2>1) Introduction:</h2>
 
-<p>This Image Repo application is built using Django and Python. Users can upload images, download, archive and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Production (<a href="https://imagerepoapp.herokuapp.com/">imagerepoapp.herokuapp.com</a>) uses S3 and Google Vision API **Notes about adding Google Vision API and S3 bucket credentials if using the code in the repo are in the last section (section 4) of the README.</p>
-
+<p>This Image Repo application is built using Django and Python. Users can upload images, download, archive, and search for images that have been uploaded into the repo. Using object detection (cvlib by default and Google Vision API if the credentials are provided), the image will also have suggested tags attached to it that users can use to find the uploaded images. If necessary, image repo storage can be moved to AWS S3. **Production (<a href="https://imagerepoapp.herokuapp.com/">imagerepoapp.herokuapp.com</a>) uses AWS S3 and Google Vision API **Notes about adding Google Vision API and S3 bucket credentials if using the code in the repo are in the last section (section 4) of the README.</p>
 
 
 <h2>2) Quick instructions on using the application</h2>
