@@ -1,9 +1,9 @@
 # Shopify Image Repo
-<p>Link: <a href="https://imagerepoapp.herokuapp.com">imagerepoapp.herokuapp.com</a></p>
+<p><strong>Link:</strong> <a href="https://imagerepoapp.herokuapp.com">imagerepoapp.herokuapp.com</a></p>
 
 <p>Please feel free to create your own account or use the sample account below to log in!</p>
-<p>Username: Test_User</p>
-<p>Password: Testing321</p>
+<p><strong>Username:</strong> Test_User</p>
+<p><strong>Password:</strong> Testing321</p>
 
 <u><h2>Table of Contents</h2></u>
 <ol>
